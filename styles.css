@@ -1,7 +1,13 @@
+/* css reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'mona';
+  src: url(./MonaspaceArgon-Regular.woff);
 }
 
 body {
@@ -10,18 +16,28 @@ body {
   height: 100vh;
   padding: 15px;
   color: var(--text-color);
+  font-family: 'mona';
+  text-shadow: var(--text-color) 1px 0 10px;
 }
 
-#wrapper {
+#terminal {
   background-color: var(--bg-color);
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  border: 2px solid var(--text-color);
+  padding: 20px;
+  overflow-x: scroll;
 }
 
 /* colors and variables */
 :root {
-  --bg-color: #171717;
-  --text-color: green;
+  --bg-color: #1e1e1e;
+  --text-color: #00a300;
+}
+
+/* media queries */
+@media (max-width: 600px) {
+  body {
+    font-size: 0.75rem;
+  }
 }
