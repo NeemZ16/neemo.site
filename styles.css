@@ -29,6 +29,14 @@ body {
   overflow-x: scroll;
 }
 
+.prompt {
+  display: flex;
+}
+
+input {
+  flex-grow: 1;
+}
+
 /* colors and variables */
 :root {
   --bg-color: #1e1e1e;
