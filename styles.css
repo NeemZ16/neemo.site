@@ -24,7 +24,7 @@ body {
 p, span, input {
   font-family: 'mona', 'Courier New', Courier, monospace;
   font-size: var(--font-size);
-  margin: 10px 0;
+  margin: 4px 0;
 }
 
 #terminal {
