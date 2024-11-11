@@ -1,21 +1,19 @@
 const terminal = document.getElementById("terminal");
+const helpTextContent = "Type 'help' for list of supported commands";
 let dir = "~";
-
-// on load
-displayPrompt();
 
 
 function displayBanner() {
   const asciiArt = document.createElement("pre");
   asciiArt.innerHTML = `
-   ____  ___  ___  ____ ___  ____     ____
+  ____  ___  ___  ____ ___  ____     ____
   / __ \\/ _ \\/ _ \\/ __ \`__ \\/ __ \\   /_  /
- / / / /  __/  __/ / / / / / /_/ /    / /_
-/_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.0.0\n\n\n`;
-
+  / / / /  __/  __/ / / / / / /_/ /    / /_
+  /_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.0.0\n\n\n`;
+  
   const helpText = document.createElement("p")
-  helpText.textContent = "Type 'help' for list of supported commands";
-
+  helpText.textContent = helpTextContent;
+  
   terminal.appendChild(asciiArt);
   asciiArt.insertAdjacentElement("afterend", helpText);
 }
@@ -33,12 +31,17 @@ function displayPrompt() {
   const directory = document.createElement("span");
   directory.classList.add("directory");
   directory.innerHTML = ":" + dir + " $&nbsp;";
-
-  // create textarea
+  
+  // create input and process command
   const input = document.createElement("input");
-
-
-  // create prompt
+  input.addEventListener("keypress", (e) => {
+    if (e.key==="Enter") {
+      processCommand(input.value)
+      input.value = "";
+    }
+  })
+  
+  // create prompt and add to screen
   const prompt = document.createElement("div");
   prompt.classList.add("prompt");
   prompt.appendChild(user);
@@ -46,4 +49,26 @@ function displayPrompt() {
   prompt.appendChild(directory);
   prompt.appendChild(input);
   terminal.appendChild(prompt);
+  input.focus();
 }
+
+function processCommand(cmd) {
+  console.log(cmd);
+  
+  // if empty do nothing
+  if (!cmd) {
+    return;
+  }
+  
+  // create response element and default message
+  const response = document.createElement("p");
+  response.innerHTML = `${cmd.split(' ')[0]}: command not recognized<br>${helpTextContent}`;
+  response.classList.add("response");
+
+  // append response and display new prompt
+  terminal.appendChild(response);
+  displayPrompt();
+}
+
+// on load
+displayPrompt();

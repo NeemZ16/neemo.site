@@ -16,8 +16,15 @@ body {
   height: 100vh;
   padding: 15px;
   color: var(--text-color);
-  font-family: 'mona';
+  font-family: 'mona', 'Courier New', Courier, monospace;
   text-shadow: var(--text-color) 1px 0 10px;
+  font-size: var(--font-size);
+}
+
+p, span, input {
+  font-family: 'mona', 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  margin: 10px 0;
 }
 
 #terminal {
@@ -29,23 +36,35 @@ body {
   overflow-x: scroll;
 }
 
+.crt {
+  background: linear-gradient(to top, #000000, #000000, var(--bg-color), var(--bg-color));
+  background-size: 100% 1px;
+}
+
 .prompt {
   display: flex;
 }
 
-input {
+input, input:focus-visible {
   flex-grow: 1;
+  border: none;
+  background: none;
+  color: var(--text-color);
+  font-family: 'mona';
+  outline: none;
+  text-shadow: var(--text-color) 1px 0 10px;
 }
 
 /* colors and variables */
 :root {
   --bg-color: #1e1e1e;
   --text-color: #00a300;
+  --font-size: 1rem;
 }
 
 /* media queries */
 @media (max-width: 600px) {
-  body {
-    font-size: 0.75rem;
+  :root {
+    --font-size: 0.75rem;
   }
 }
