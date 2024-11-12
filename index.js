@@ -11,6 +11,39 @@ function escapeHTML(input) {
     .replace(/'/g, "&#039;");
 }
 
+function replacePrompt() {
+  const domain = document.createElement("span");
+  domain.innerHTML = "@" + window.location.hostname;
+  domain.classList.add("domain");
+
+  const user = document.createElement("span");
+  user.classList.add("user");
+  user.innerHTML = "guest";
+
+  const directory = document.createElement("span");
+  directory.classList.add("directory");
+  directory.innerHTML = ":" + dir + " $&nbsp;";
+
+  const lastCommand = document.createElement("p");
+
+  // get last input value
+  const currInput = document.querySelector("#currPrompt input");
+  lastCommand.textContent = currInput.value;
+  
+  // remove last prompt
+  const lastPrompt = document.getElementById('currPrompt');
+  lastPrompt.remove();
+
+  // create prompt and add to screen
+  const prompt = document.createElement("div");
+  prompt.classList.add("prompt");
+  prompt.appendChild(user);
+  prompt.appendChild(domain);
+  prompt.appendChild(directory);
+  prompt.appendChild(lastCommand);
+  terminal.appendChild(prompt);
+}
+
 function displayBanner() {
   const asciiArt = document.createElement("pre");
   asciiArt.innerHTML = `
@@ -45,13 +78,13 @@ function displayPrompt() {
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       processCommand(escapeHTML(input.value));
-      displayPrompt();
     }
   })
 
   // create prompt and add to screen
   const prompt = document.createElement("div");
   prompt.classList.add("prompt");
+  prompt.id = 'currPrompt';
   prompt.appendChild(user);
   prompt.appendChild(domain);
   prompt.appendChild(directory);
@@ -66,17 +99,20 @@ function processCommand(cmd) {
     return;
   }
 
+  // remove currPrompt and replace input with p
+  replacePrompt();
+
   // create response element and default message
   const response = document.createElement("p");
   response.classList.add("response");
 
-  const allowed = ['help', 'cd', 'ls', 'cat', 'man', 'banner', 'whoisneem', 'whoami', 'contact', 'repo', 'history', 'clear', 'exit'];
+  const allowed = ['help', 'cd', 'ls', 'cat', 'banner', 'whoisneem', 'whoami', 'contact', 'repo', 'history', 'clear', 'exit'];
   const splitCmd = cmd.split(' ');
   const command = splitCmd[0];
 
   // set up local storage
   if (!localStorage.getItem("history")) {
-    localStorage.setItem("history", ['ababa', 'bcbcbcb']);
+    localStorage.setItem("history", []);
   }
 
   if (!allowed.includes(command)) {
@@ -85,19 +121,18 @@ function processCommand(cmd) {
   } else if (command === 'help') {
     // show help text
     response.innerText = `SUPPORTED COMMANDS:
-                          - help - shows all commands and what they do
+                          - help [command] - shows all commands and what they do
                           - cd
                           - ls
                           - cat
-                          - man [command] - show manual for specific command
                           - banner - display banner
                           - whoisneem
                           - whoami
                           - contact - display links to email and linkedin
                           - repo - open repo on github in new tab
                           - history - print command history
-                          - clear - clear screen and display prompt, but do NOT clear history
-                          - exit - clear command history and exit session`;
+                          - clear - clear terminal and command history
+                          - exit - clear command history and close window`;
 
   } else if (command === 'cd') {
 
@@ -122,7 +157,7 @@ function processCommand(cmd) {
   } else if (command === 'clear') {
 
   } else if (command === 'exit') {
-    localStorage.clear();
+    
   }
 
   const history = localStorage.getItem('history');
@@ -130,6 +165,7 @@ function processCommand(cmd) {
 
   // show response in terminal
   terminal.appendChild(response);
+  displayPrompt();
 }
 
 // on load
