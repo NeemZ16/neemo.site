@@ -10,6 +10,13 @@
   src: url(./MonaspaceArgon-Regular.woff);
 }
 
+/* colors and variables */
+:root {
+  --bg-color: #1e1e1e;
+  --text-color: #00d000;
+  --font-size: 1rem;
+}
+
 body {
   background-color: #000;
   width: 100vw;
@@ -19,6 +26,16 @@ body {
   font-family: 'mona', 'Courier New', Courier, monospace;
   text-shadow: var(--text-color) 1px 0 10px;
   font-size: var(--font-size);
+}
+
+::selection {
+  color: var(--bg-color);
+  background: var(--text-color);
+}
+
+::-moz-selection {
+  color: var(--bg-color);
+  background: var(--text-color);
 }
 
 p, span, input {
@@ -54,13 +71,7 @@ input, input:focus-visible {
   font-size: var(--font-size);
   outline: none;
   text-shadow: var(--text-color) 1px 0 10px;
-}
-
-/* colors and variables */
-:root {
-  --bg-color: #1e1e1e;
-  --text-color: #00a300;
-  --font-size: 1rem;
+  caret-color: var(--text-color);
 }
 
 /* media queries */

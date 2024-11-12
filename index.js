@@ -75,6 +75,7 @@ function displayPrompt() {
 
   // create input and process command
   const input = document.createElement("input");
+  input.setAttribute("spellcheck", "false");
   input.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       processCommand(escapeHTML(input.value));
@@ -106,19 +107,15 @@ function processCommand(cmd) {
   const response = document.createElement("p");
   response.classList.add("response");
 
-  const allowed = ['help', 'cd', 'ls', 'cat', 'banner', 'whoisneem', 'whoami', 'contact', 'repo', 'history', 'clear', 'exit'];
-  const splitCmd = cmd.split(' ');
-  const command = splitCmd[0];
-
   // set up local storage
   if (!localStorage.getItem("history")) {
     localStorage.setItem("history", []);
   }
+  
+  const splitCmd = cmd.split(' ');
+  const command = splitCmd[0];
 
-  if (!allowed.includes(command)) {
-    // if not allowed show command not recognized
-    response.innerHTML = `${splitCmd[0]}: command not recognized<br>${helpTextContent}`;
-  } else if (command === 'help') {
+  if (command === 'help') {
     // show help text
     response.innerText = `SUPPORTED COMMANDS:
                           - help [command] - shows all commands and what they do
@@ -131,8 +128,7 @@ function processCommand(cmd) {
                           - contact - display links to email and linkedin
                           - repo - open repo on github in new tab
                           - history - print command history
-                          - clear - clear terminal and command history
-                          - exit - clear command history and close window`;
+                          - clear - clear terminal and command history`;
 
   } else if (command === 'cd') {
 
@@ -156,8 +152,9 @@ function processCommand(cmd) {
 
   } else if (command === 'clear') {
 
-  } else if (command === 'exit') {
-    
+  } else {
+    // if not allowed show command not recognized
+    response.innerHTML = `${splitCmd[0]}: command not recognized<br>${helpTextContent}`;
   }
 
   const history = localStorage.getItem('history');
