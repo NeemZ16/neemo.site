@@ -1,15 +1,9 @@
-const terminal = document.getElementById("terminal");
-const helpTextContent = "Type 'help' for list of supported commands";
-let dir = "~";
+import { displayBanner, handleHelp} from './handlers.js';
+import { escapeHTML } from './utils.js';
 
-function escapeHTML(input) {
-  return input
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+const terminal = document.getElementById("terminal");
+export const helpTextContent = "Type 'help' for list of supported commands";
+let dir = "~";
 
 function replacePrompt() {
   const domain = document.createElement("span");
@@ -42,21 +36,6 @@ function replacePrompt() {
   prompt.appendChild(directory);
   prompt.appendChild(lastCommand);
   terminal.appendChild(prompt);
-}
-
-function displayBanner() {
-  const asciiArt = document.createElement("pre");
-  asciiArt.innerHTML = `
-   ____  ___  ___  ____ ___  ____     ____
-  / __ \\/ _ \\/ _ \\/ __ \`__ \\/ __ \\   /_  /
- / / / /  __/  __/ / / / / / /_/ /    / /_
-/_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.0.0\n\n\n`;
-
-  const helpText = document.createElement("p")
-  helpText.textContent = helpTextContent;
-
-  terminal.appendChild(asciiArt);
-  asciiArt.insertAdjacentElement("afterend", helpText);
 }
 
 function displayPrompt() {
@@ -114,22 +93,10 @@ function processCommand(cmd) {
   
   const splitCmd = cmd.split(' ');
   const command = splitCmd[0];
+  const args = splitCmd.splice(1);
 
   if (command === 'help') {
-    // show help text
-    response.innerText = `SUPPORTED COMMANDS:
-                          - help [command] - shows all commands and what they do
-                          - cd
-                          - ls
-                          - cat
-                          - banner - display banner
-                          - whoisneem
-                          - whoami
-                          - contact - display links to email and linkedin
-                          - repo - open repo on github in new tab
-                          - history - print command history
-                          - clear - clear terminal and command history`;
-
+    response.innerText = handleHelp(args);
   } else if (command === 'cd') {
 
   } else if (command === 'ls') {
@@ -139,7 +106,7 @@ function processCommand(cmd) {
   } else if (command === 'man') {
 
   } else if (command === 'banner') {
-    displayBanner();
+    displayBanner(response, args);
   } else if (command === 'whoisneem') {
 
   } else if (command === 'whoami') {
@@ -154,11 +121,11 @@ function processCommand(cmd) {
 
   } else {
     // if not allowed show command not recognized
-    response.innerHTML = `${splitCmd[0]}: command not recognized<br>${helpTextContent}`;
+    response.innerText = `${splitCmd[0]}: command not recognized
+                          ${helpTextContent}`;
   }
 
   const history = localStorage.getItem('history');
-  console.log(history);
 
   // show response in terminal
   terminal.appendChild(response);
