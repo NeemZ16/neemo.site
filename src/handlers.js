@@ -1,12 +1,20 @@
-import { helpTextContent } from "./index.js";
 import { fetchHelpContent } from "./utils.js";
 
 const docs = await fetchHelpContent();
+const helpTextContent = "Type 'help' for list of supported commands";
 
 function noArgs(cmd) {
   return `${cmd}: command does not support arguments`;
 }
 
+// COMMAND: unrecognized
+export function handleDefault(cmd) {
+  // if not allowed show command not recognized
+  return `${cmd}: command not recognized
+  ${helpTextContent}`;
+}
+
+// COMMAND: banner
 export function displayBanner(res, args) {
   if (args.length > 0) {
     res.innerText = noArgs("banner");
@@ -28,6 +36,7 @@ export function displayBanner(res, args) {
   asciiArt.insertAdjacentElement("afterend", helpText);
 }
 
+// COMMAND: help
 export function handleHelp(args) {
   if (args.length > 1) {
     return `Usage: help [command]`;

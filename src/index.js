@@ -1,79 +1,11 @@
-import { displayBanner, handleHelp} from './handlers.js';
-import { escapeHTML } from './utils.js';
+import { displayBanner, handleHelp, handleDefault } from './handlers.js';
+import { replacePrompt, displayPrompt } from './utils.js';
 
-const terminal = document.getElementById("terminal");
-export const helpTextContent = "Type 'help' for list of supported commands";
-let dir = "~";
+export const terminal = document.getElementById("terminal");
+export let dir = "~";
 
-function replacePrompt() {
-  const domain = document.createElement("span");
-  domain.innerHTML = "@" + window.location.hostname;
-  domain.classList.add("domain");
 
-  const user = document.createElement("span");
-  user.classList.add("user");
-  user.innerHTML = "guest";
-
-  const directory = document.createElement("span");
-  directory.classList.add("directory");
-  directory.innerHTML = ":" + dir + " $&nbsp;";
-
-  const lastCommand = document.createElement("p");
-
-  // get last input value
-  const currInput = document.querySelector("#currPrompt input");
-  lastCommand.textContent = currInput.value;
-  
-  // remove last prompt
-  const lastPrompt = document.getElementById('currPrompt');
-  lastPrompt.remove();
-
-  // create prompt and add to screen
-  const prompt = document.createElement("div");
-  prompt.classList.add("prompt");
-  prompt.appendChild(user);
-  prompt.appendChild(domain);
-  prompt.appendChild(directory);
-  prompt.appendChild(lastCommand);
-  terminal.appendChild(prompt);
-}
-
-function displayPrompt() {
-  // create spans for prompt
-  const domain = document.createElement("span");
-  domain.innerHTML = "@" + window.location.hostname;
-  domain.classList.add("domain");
-
-  const user = document.createElement("span");
-  user.classList.add("user");
-  user.innerHTML = "guest";
-
-  const directory = document.createElement("span");
-  directory.classList.add("directory");
-  directory.innerHTML = ":" + dir + " $&nbsp;";
-
-  // create input and process command
-  const input = document.createElement("input");
-  input.setAttribute("spellcheck", "false");
-  input.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      processCommand(escapeHTML(input.value));
-    }
-  })
-
-  // create prompt and add to screen
-  const prompt = document.createElement("div");
-  prompt.classList.add("prompt");
-  prompt.id = 'currPrompt';
-  prompt.appendChild(user);
-  prompt.appendChild(domain);
-  prompt.appendChild(directory);
-  prompt.appendChild(input);
-  terminal.appendChild(prompt);
-  input.focus();
-}
-
-function processCommand(cmd) {
+export function processCommand(cmd) {
   // if empty do nothing
   if (!cmd) {
     return;
@@ -110,7 +42,7 @@ function processCommand(cmd) {
   } else if (command === 'whoisneem') {
 
   } else if (command === 'whoami') {
-
+    response.innerText = 'guest';
   } else if (command === 'contact') {
 
   } else if (command === 'repo') {
@@ -120,9 +52,7 @@ function processCommand(cmd) {
   } else if (command === 'clear') {
 
   } else {
-    // if not allowed show command not recognized
-    response.innerText = `${splitCmd[0]}: command not recognized
-                          ${helpTextContent}`;
+    response.innerText = handleDefault(command);
   }
 
   const history = localStorage.getItem('history');
