@@ -1,6 +1,10 @@
 import { terminal, dir, processCommand } from './index.js'
+import { displayBanner, handleHelp, handleDefault } from './handlers.js';
 
-// get json data for all commands
+/**
+ * get json data for all commands
+ * @returns {JSON} data
+ */
 export async function fetchHelpContent() {
   try {
     const response = await fetch('src/help.json');
@@ -54,7 +58,6 @@ export function replacePrompt() {
 }
 
 export function displayPrompt() {
-  console.log('display prompt called');
   // create spans for prompt
   const domain = document.createElement("span");
   domain.innerHTML = "@" + window.location.hostname;
@@ -87,4 +90,64 @@ export function displayPrompt() {
   prompt.appendChild(input);
   terminal.appendChild(prompt);
   input.focus();
+}
+
+function noArgs(cmd) {
+  return `${cmd}: command does not support arguments`;
+}
+
+/**
+ * Handles input and calls appropriate handler function. 
+ * Sets response innerText.
+ * 
+ * @param {string} command 
+ * @param {Array<string>} args 
+ * @param {HTMLParagraphElement} response 
+ */
+export function handleInput(command, args, response) {
+
+  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear'];
+  if (noArgsCmds.includes(command) && args.length > 0) {
+    response.innerText = noArgs(command);
+    return;
+  }
+
+  switch (command) {
+    case 'help':
+      response.innerText = handleHelp(args);
+      break;
+    case 'cd':
+      break;
+    case 'ls':
+      break;
+    case 'cat':
+      break;
+    case 'man':
+      break;
+    case 'banner':
+      displayBanner(response);
+      break;
+    case 'whoisneem':
+      break;
+    case 'whoami':
+      response.innerText = 'guest';
+      break;
+    case 'hostname':
+      response.innerText = window.location.hostname;
+      break;
+    case 'contact':
+      break;
+    case 'repo':
+      break;
+    case 'history':
+      break;
+    case 'clear':
+      break;
+    case 'echo':
+      break;
+    default:
+      response.innerText = handleDefault(command);
+      break;
+  }
+
 }

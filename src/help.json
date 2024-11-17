@@ -1,4 +1,4 @@
 {
-  "help": "List all allowed commands.\nOptional argument: [command] - display information about a specific command",
+  "help": "help:List all allowed commands\nhelp [command] - display information about a specific command",
   "banner": "Display ASCII banner"
 }

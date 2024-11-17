@@ -1,5 +1,4 @@
-import { displayBanner, handleHelp, handleDefault } from './handlers.js';
-import { replacePrompt, displayPrompt } from './utils.js';
+import { replacePrompt, displayPrompt, handleInput } from './utils.js';
 
 export const terminal = document.getElementById("terminal");
 export let dir = "~";
@@ -22,38 +21,13 @@ export function processCommand(cmd) {
   if (!localStorage.getItem("history")) {
     localStorage.setItem("history", []);
   }
-  
+
   const splitCmd = cmd.split(' ');
   const command = splitCmd[0];
   const args = splitCmd.splice(1);
 
-  if (command === 'help') {
-    response.innerText = handleHelp(args);
-  } else if (command === 'cd') {
+  handleInput(command, args, response)
 
-  } else if (command === 'ls') {
-
-  } else if (command === 'cat') {
-
-  } else if (command === 'man') {
-
-  } else if (command === 'banner') {
-    displayBanner(response, args);
-  } else if (command === 'whoisneem') {
-
-  } else if (command === 'whoami') {
-    response.innerText = 'guest';
-  } else if (command === 'contact') {
-
-  } else if (command === 'repo') {
-
-  } else if (command === 'history') {
-
-  } else if (command === 'clear') {
-
-  } else {
-    response.innerText = handleDefault(command);
-  }
 
   const history = localStorage.getItem('history');
 
