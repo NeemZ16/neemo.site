@@ -5,7 +5,6 @@ export let dir = "~";
 
 
 export function processCommand(cmd) {
-  // if empty do nothing
   if (!cmd) {
     return;
   }
@@ -22,12 +21,11 @@ export function processCommand(cmd) {
     localStorage.setItem("history", []);
   }
 
+  // process and handle input
   const splitCmd = cmd.split(' ');
   const command = splitCmd[0];
   const args = splitCmd.splice(1);
-
   handleInput(command, args, response)
-
 
   const history = localStorage.getItem('history');
 

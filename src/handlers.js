@@ -1,9 +1,7 @@
-import { fetchHelpContent } from "./utils.js";
+import { fetchHelpContent, displayPrompt } from "./utils.js";
 
 const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands";
-
-
 
 // COMMAND: unrecognized
 export function handleDefault(cmd) {
@@ -44,7 +42,7 @@ export function handleHelp(args) {
       return docs[args[0]];
     } else {
       return `help: ${args[0]} is not a supported command
-              ${helpTextContent}`
+              ${helpTextContent}`;
     }
   }
 
@@ -64,3 +62,15 @@ export function handleHelp(args) {
   - clear - clear terminal and command history`;
 }
 
+// COMMAND: repo
+export function handleRepo() {
+  const URL = 'https://github.com/NeemZ16/neemo-emu';
+  window.open(URL, '_blank');
+  return "Opening repository in new tab...";
+}
+
+// COMMAND: clear
+export function handleClear() {
+  const terminal = document.getElementById("terminal");
+  terminal.innerHTML = "";
+}

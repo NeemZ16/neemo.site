@@ -1,4 +1,24 @@
 {
-  "help": "help:List all allowed commands\nhelp [command] - display information about a specific command",
-  "banner": "Display ASCII banner"
+  "help": {
+    "base": "help: List all allowed commands and w",
+    "options": {
+      "[command]": "Display information about a specific command"
+    }
+  },
+  "banner": "banner: Display ASCII banner",
+  "clear": "clear: Clear terminal screen and command history",
+  "echo": "echo [text]: Print text to terminal screen",
+  "whoami": "whoami: Display current logged in user",
+  "hostname": "hostname: Display name of host system",
+  "history": "history: Print command history",
+  "repo": "repo: Open GitHub repository for this project",
+  "cat": "cat [filename]: Print contents of file",
+  "ls": "ls",
+  "cd": "cd",
+  "contact": {
+    "base": "contact: Print contact information and links",
+    "options": {
+      "-m <message> [-from <your name/email>]": "Send an email containing some message. Optionally, include who you are :)"
+    }
+  }
 }

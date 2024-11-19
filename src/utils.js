@@ -1,5 +1,5 @@
 import { terminal, dir, processCommand } from './index.js'
-import { displayBanner, handleHelp, handleDefault } from './handlers.js';
+import { displayBanner, handleHelp, handleDefault, handleRepo, handleClear } from './handlers.js';
 
 /**
  * get json data for all commands
@@ -92,10 +92,6 @@ export function displayPrompt() {
   input.focus();
 }
 
-function noArgs(cmd) {
-  return `${cmd}: command does not support arguments`;
-}
-
 /**
  * Handles input and calls appropriate handler function. 
  * Sets response innerText.
@@ -106,13 +102,18 @@ function noArgs(cmd) {
  */
 export function handleInput(command, args, response) {
 
-  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear'];
+  // if command doesn't take arguments show noArgs message if args provided
+  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
   if (noArgsCmds.includes(command) && args.length > 0) {
-    response.innerText = noArgs(command);
+    response.innerText = `${command}: command does not support arguments`;
     return;
   }
 
   switch (command) {
+    case 'hello':
+    case 'hi':
+      response.innerText = 'hi there! type \'help\' to see what you can do :)';
+      break;
     case 'help':
       response.innerText = handleHelp(args);
       break;
@@ -121,8 +122,6 @@ export function handleInput(command, args, response) {
     case 'ls':
       break;
     case 'cat':
-      break;
-    case 'man':
       break;
     case 'banner':
       displayBanner(response);
@@ -138,16 +137,19 @@ export function handleInput(command, args, response) {
     case 'contact':
       break;
     case 'repo':
+      response.innerText = handleRepo();
       break;
     case 'history':
       break;
     case 'clear':
+      handleClear();
       break;
     case 'echo':
+      // HTML already being escaped when process command called
+      response.innerHTML = args.join(" ");
       break;
     default:
-      response.innerText = handleDefault(command);
+      response.innerHTML = handleDefault(command);
       break;
   }
-
 }
