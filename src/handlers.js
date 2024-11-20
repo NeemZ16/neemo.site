@@ -71,6 +71,8 @@ export function handleRepo() {
 
 // COMMAND: clear
 export function handleClear() {
+  localStorage.removeItem('history');
+
   const terminal = document.getElementById("terminal");
   terminal.innerHTML = "";
 }
