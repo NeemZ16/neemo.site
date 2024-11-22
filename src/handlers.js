@@ -1,4 +1,4 @@
-import { fetchHelpContent, displayPrompt } from "./utils.js";
+import { fetchHelpContent } from "./utils.js";
 
 const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands. THIS SITE IS A WORK IN PROGRESS!!!!";
@@ -62,10 +62,13 @@ export function handleHelp(args) {
 }
 
 // COMMAND: repo
-export function handleRepo() {
+export function handleRepo(res) {
   const URL = 'https://github.com/NeemZ16/neemo-emu';
-  window.open(URL, '_blank');
-  return "Opening repository in new tab...";
+  res.innerText = "Opening repository in new tab...";
+  setTimeout(() => {
+    window.open(URL, '_blank');
+    res.innerText = "Opened repo!"
+  }, 500);
 }
 
 // COMMAND: clear

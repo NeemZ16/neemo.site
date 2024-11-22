@@ -92,6 +92,35 @@ export function displayPrompt() {
   input.focus();
 }
 
+export function displayHistory(history) {
+  console.log('loading history from: ', history);
+  Object.entries(history).forEach(([key, value]) => {
+    console.log("key:", key, "value:", value);
+    const domain = document.createElement("span");
+    domain.innerHTML = "@" + window.location.hostname;
+    domain.classList.add("domain");
+
+    const user = document.createElement("span");
+    user.classList.add("user");
+    user.innerHTML = "guest";
+
+    const directory = document.createElement("span");
+    directory.classList.add("directory");
+    directory.innerHTML = ":" + dir + " $&nbsp;";
+
+    const lastCommand = document.createElement("p");
+    lastCommand.innerHTML = key;
+
+    const prompt = document.createElement("div");
+    prompt.classList.add("prompt");
+    prompt.appendChild(user);
+    prompt.appendChild(domain);
+    prompt.appendChild(directory);
+    prompt.appendChild(lastCommand);
+    terminal.appendChild(prompt);
+  })
+}
+
 /**
  * Handles input and calls appropriate handler function. 
  * Sets response innerText.
@@ -137,7 +166,7 @@ export function handleInput(command, args, response) {
     case 'contact':
       break;
     case 'repo':
-      response.innerText = handleRepo();
+      handleRepo(response);
       break;
     case 'history':
       break;
