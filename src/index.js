@@ -46,19 +46,21 @@ function runOnLoad() {
     displayPrompt();
     return;
   }
+  
+  
   history = JSON.parse(history);
-  
   console.log("history on refresh:", history);
-  
   // if clear is only item in history, refresh = fresh start
   if (!(Object.keys(history)[0] === "clear" && Object.keys(history).length > 1)) {
     const originalBanner = document.createElement('div');
     displayBanner(originalBanner);
     terminal.appendChild(originalBanner);
     localStorage.removeItem('history');
+    displayPrompt();
+    return;
   }
 
-  // TODO: load items from history and add to dom
+  // load items from history and add to dom
   displayHistory(history);
 
   displayPrompt();

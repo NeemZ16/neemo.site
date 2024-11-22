@@ -93,9 +93,7 @@ export function displayPrompt() {
 }
 
 export function displayHistory(history) {
-  console.log('loading history from: ', history);
-  Object.entries(history).forEach(([key, value]) => {
-    console.log("key:", key, "value:", value);
+  Object.entries(history).forEach(([req, res]) => {
     const domain = document.createElement("span");
     domain.innerHTML = "@" + window.location.hostname;
     domain.classList.add("domain");
@@ -109,7 +107,10 @@ export function displayHistory(history) {
     directory.innerHTML = ":" + dir + " $&nbsp;";
 
     const lastCommand = document.createElement("p");
-    lastCommand.innerHTML = key;
+    lastCommand.innerHTML = req;
+
+    const lastResponse = document.createElement("p");
+    lastResponse.innerHTML = res;
 
     const prompt = document.createElement("div");
     prompt.classList.add("prompt");
@@ -118,6 +119,7 @@ export function displayHistory(history) {
     prompt.appendChild(directory);
     prompt.appendChild(lastCommand);
     terminal.appendChild(prompt);
+    terminal.appendChild(lastResponse);
   })
 }
 
