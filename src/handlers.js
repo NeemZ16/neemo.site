@@ -1,7 +1,7 @@
 import { fetchHelpContent, displayPrompt } from "./utils.js";
 
 const docs = await fetchHelpContent();
-const helpTextContent = "Type 'help' for list of supported commands";
+const helpTextContent = "Type 'help' for list of supported commands. THIS SITE IS A WORK IN PROGRESS!!!!";
 
 // COMMAND: unrecognized
 export function handleDefault(cmd) {
@@ -18,7 +18,6 @@ export function displayBanner(res) {
     / __ \\/ _ \\/ _ \\/ __ \`__ \\/ __ \\   /_  /
    / / / /  __/  __/ / / / / / /_/ /    / /_
   /_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.0.0
-  
   `;
 
   const helpText = document.createElement("p");
