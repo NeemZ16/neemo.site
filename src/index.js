@@ -37,7 +37,8 @@ export function processCommand(cmd) {
 function runOnLoad() {
   // load history
   let history = localStorage.getItem('history')
-  
+  const originalBanner = document.createElement('div');
+
   // if no history item set (initial load no commands), display banner and prompt
   if (!history) {
     const originalBanner = document.createElement('div');
@@ -46,24 +47,31 @@ function runOnLoad() {
     displayPrompt();
     return;
   }
-  
-  
+
+
   history = JSON.parse(history);
   console.log("history on refresh:", history);
+
   // if clear is only item in history, refresh = fresh start
-  if (!(Object.keys(history)[0] === "clear" && Object.keys(history).length > 1)) {
-    const originalBanner = document.createElement('div');
+  if (Object.keys(history)[0] === "clear" && Object.keys(history).length === 1) {
     displayBanner(originalBanner);
     terminal.appendChild(originalBanner);
     localStorage.removeItem('history');
-    displayPrompt();
-    return;
+    // displayPrompt();
+    // return;
+  } else if (Object.keys(history)[0] === "clear" && Object.keys(history).length > 1) {
+    displayHistory(history);
+  } else {
+    // load items from history and add to dom
+    displayBanner(originalBanner);
+    terminal.appendChild(originalBanner);
+    displayHistory(history);
   }
-
-  // load items from history and add to dom
-  displayHistory(history);
-
+  
   displayPrompt();
 }
+
+// TODO: click anywhere to focus input
+// TODO: up/down to cycle through history
 
 runOnLoad()

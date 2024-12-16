@@ -1,5 +1,5 @@
 import { terminal, dir, processCommand } from './index.js'
-import { displayBanner, handleHelp, handleDefault, handleRepo, handleClear } from './handlers.js';
+import { displayBanner, handleHelp, handleDefault, handleRepo, handleClear, handleHistory } from './handlers.js';
 
 /**
  * get json data for all commands
@@ -93,6 +93,13 @@ export function displayPrompt() {
 }
 
 export function displayHistory(history) {
+  // if first item is "clear" then remove it from history object
+  if (Object.keys(history)[0] === "clear") {
+    console.log("removing clear")
+    delete history[Object.keys(history)[0]];
+  }
+
+  // display each command and response
   Object.entries(history).forEach(([req, res]) => {
     const domain = document.createElement("span");
     domain.innerHTML = "@" + window.location.hostname;
@@ -111,6 +118,7 @@ export function displayHistory(history) {
 
     const lastResponse = document.createElement("p");
     lastResponse.innerHTML = res;
+    lastResponse.classList.add("response");
 
     const prompt = document.createElement("div");
     prompt.classList.add("prompt");
@@ -171,6 +179,7 @@ export function handleInput(command, args, response) {
       handleRepo(response);
       break;
     case 'history':
+      handleHistory(response);
       break;
     case 'clear':
       handleClear();

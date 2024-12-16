@@ -6,8 +6,7 @@ const helpTextContent = "Type 'help' for list of supported commands. THIS SITE I
 // COMMAND: unrecognized
 export function handleDefault(cmd) {
   // if not allowed show command not recognized
-  return `${cmd}: command not recognized
-  ${helpTextContent}`;
+  return `${cmd}: command not recognized${helpTextContent}`;
 }
 
 // COMMAND: banner
@@ -48,13 +47,14 @@ export function handleHelp(args) {
   // show help text for all commands
   return `SUPPORTED COMMANDS:
   - help [command] - shows detailed information for each command
-  - cd
-  - ls
+  - cd - change directory
+  - ls 
   - cat
-  - echo
+  - echo - print a string to the terminal
   - banner - display default banner
   - whoisneem
-  - whoami
+  - whoami - display current user
+  - hostname - display current hostname
   - contact - display links to email and linkedin
   - repo - open repo on github in new tab
   - history - print command history
@@ -67,7 +67,7 @@ export function handleRepo(res) {
   res.innerText = "Opening repository in new tab...";
   setTimeout(() => {
     window.open(URL, '_blank');
-    res.innerText = "Opened repo!"
+    res.innerText = "Opened repo in new tab!"
   }, 500);
 }
 
@@ -77,4 +77,25 @@ export function handleClear() {
 
   const terminal = document.getElementById("terminal");
   terminal.innerHTML = "";
+}
+
+// COMMAND: history
+export function handleHistory(res) {
+  let history = localStorage.getItem('history');
+  if (!history) {
+    res.innerHTML = "No history found";
+    return;
+  }
+
+  history = JSON.parse(history);
+  let resText = "";
+  
+  let idx = 1;
+  Object.keys(history).forEach((key) => {
+    console.log(idx, key)
+    resText += `${idx} ${key}\n`;
+    idx ++;
+  })
+  
+  res.innerText = resText;
 }
