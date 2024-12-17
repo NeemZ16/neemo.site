@@ -95,10 +95,20 @@ export function handleHistory(res) {
   history = JSON.parse(history);
   let resText = "";
 
-  for (let i = 0; i < history.length; i++) {
-  const obj = history[i];
-    resText += `${i + 1} ${obj.command}\n`;
+  function genPad(idx) {
+    const maxIndexWidth = String(history.length).length;
+    let ret = String(idx);
+    while (ret.length < maxIndexWidth) {
+      ret = " " + ret;
+    }
+    return ret.replace(" ", "&nbsp;");
   }
 
-  res.innerText = resText;
+  for (let i = 0; i < history.length; i++) {
+    const obj = history[i];
+    console.log(genPad(i+1));
+    resText += `${genPad(i + 1)} ${obj.command}<br>`;
+  }
+
+  res.innerHTML = resText;
 }
