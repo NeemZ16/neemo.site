@@ -93,14 +93,11 @@ export function displayPrompt() {
 }
 
 export function displayHistory(history) {
-  // if first item is "clear" then remove it from history object
-  if (Object.keys(history)[0] === "clear") {
-    console.log("removing clear")
-    delete history[Object.keys(history)[0]];
-  }
-
   // display each command and response
-  Object.entries(history).forEach(([req, res]) => {
+  for (let i=0; i < history.length; i++) {
+    const req = history[i].command;
+    const res = history[i].response;
+
     const domain = document.createElement("span");
     domain.innerHTML = "@" + window.location.hostname;
     domain.classList.add("domain");
@@ -128,7 +125,7 @@ export function displayHistory(history) {
     prompt.appendChild(lastCommand);
     terminal.appendChild(prompt);
     terminal.appendChild(lastResponse);
-  })
+  }
 }
 
 /**

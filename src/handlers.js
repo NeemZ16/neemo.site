@@ -31,8 +31,8 @@ export function displayBanner(res) {
 export function handleHelp(args) {
   if (args.length > 1) {
     return `Usage: help [command]`;
-  } 
-  
+  }
+
   // show help text for single command if supported
   if (args.length === 1) {
     console.log("docs", docs);
@@ -65,10 +65,15 @@ export function handleHelp(args) {
 export function handleRepo(res) {
   const URL = 'https://github.com/NeemZ16/neemo-emu';
   res.innerText = "Opening repository in new tab...";
-  setTimeout(() => {
-    window.open(URL, '_blank');
-    res.innerText = "Opened repo in new tab!"
-  }, 500);
+
+  // open new tab and change text after 0.5s; return AFTER completion
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      window.open(URL, '_blank');
+      res.innerText = "Opened repo in new tab!"
+      resolve();
+    }, 500);
+  })
 }
 
 // COMMAND: clear
@@ -89,13 +94,11 @@ export function handleHistory(res) {
 
   history = JSON.parse(history);
   let resText = "";
-  
-  let idx = 1;
-  Object.keys(history).forEach((key) => {
-    console.log(idx, key)
-    resText += `${idx} ${key}\n`;
-    idx ++;
-  })
-  
+
+  for (let i = 0; i < history.length; i++) {
+  const obj = history[i];
+    resText += `${i + 1} ${obj.command}\n`;
+  }
+
   res.innerText = resText;
 }

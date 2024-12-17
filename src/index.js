@@ -22,10 +22,15 @@ export function processCommand(cmd) {
   const args = splitCmd.splice(1);
   handleInput(command, args, response);
 
-  // add input and response as a kv pair to local storage
+  // append input and response as a kv pair to local storage
   let history = localStorage.getItem('history');
-  history = history ? JSON.parse(history) : {};
-  history[cmd] = response.innerHTML;
+  history = history ? JSON.parse(history) : [];
+
+  // create command/response object
+  const histItem = { "command": cmd, "response": response.innerHTML };
+
+  // add item to history and set history
+  history.push(histItem);
   localStorage.setItem('history', JSON.stringify(history));
 
   // show response in terminal
@@ -48,18 +53,16 @@ function runOnLoad() {
     return;
   }
 
-
   history = JSON.parse(history);
-  console.log("history on refresh:", history);
 
-  // if clear is only item in history, refresh = fresh start
-  if (Object.keys(history)[0] === "clear" && Object.keys(history).length === 1) {
+  if (history[0].command === "clear" && history.length === 1) {
+    // if clear is only item in history, refresh = fresh start
     displayBanner(originalBanner);
     terminal.appendChild(originalBanner);
     localStorage.removeItem('history');
-    // displayPrompt();
-    // return;
-  } else if (Object.keys(history)[0] === "clear" && Object.keys(history).length > 1) {
+  } else if (history[0].command === "clear" && history.length > 1) {
+    // if first item is "clear" then remove from history
+    history.shift();
     displayHistory(history);
   } else {
     // load items from history and add to dom
@@ -67,7 +70,7 @@ function runOnLoad() {
     terminal.appendChild(originalBanner);
     displayHistory(history);
   }
-  
+
   displayPrompt();
 }
 
