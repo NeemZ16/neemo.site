@@ -106,7 +106,6 @@ export function handleHistory(res) {
 
   for (let i = 0; i < history.length; i++) {
     const obj = history[i];
-    console.log(genPad(i+1));
     resText += `${genPad(i + 1)} ${obj.command}<br>`;
   }
 
