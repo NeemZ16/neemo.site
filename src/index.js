@@ -74,7 +74,13 @@ function runOnLoad() {
   displayPrompt();
 }
 
-// TODO: click anywhere to focus input
+// click anywhere on terminal to focus input
+terminal.addEventListener("click", () => {
+  const input = document.querySelector("input");
+  console.log("CLICKED")
+  input.focus();
+})
+
 // TODO: up/down to cycle through history
 
 runOnLoad()
