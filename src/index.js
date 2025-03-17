@@ -97,7 +97,6 @@ terminal.addEventListener("keydown", (e) => {
 
   history = JSON.parse(history);
   const input = document.querySelector("input");
-  console.log(history);
 
   if (e.key === "ArrowUp") {
     // cycle up through history
@@ -110,7 +109,6 @@ terminal.addEventListener("keydown", (e) => {
     // cycle down through history
     if (onHistoryIdx < history.length - 1) {
       onHistoryIdx++;
-      // input.value = history[onHistoryIdx].command;
       input.value = unEscapeHTML(history[onHistoryIdx].command);
     } else if (onHistoryIdx < history.length) {
       onHistoryIdx++;
