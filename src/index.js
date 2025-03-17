@@ -1,4 +1,4 @@
-import { replacePrompt, displayPrompt, handleInput, displayHistory } from './utils.js';
+import { replacePrompt, displayPrompt, handleInput, displayHistory, unEscapeHTML } from './utils.js';
 import { displayBanner } from './handlers.js';
 
 export const terminal = document.getElementById("terminal");
@@ -104,13 +104,14 @@ terminal.addEventListener("keydown", (e) => {
     if (onHistoryIdx >= 1) {
       onHistoryIdx--;
     }
-    input.value = history[onHistoryIdx].command;
+    input.value = unEscapeHTML(history[onHistoryIdx].command);
   
   } else if (e.key === "ArrowDown") {
     // cycle down through history
     if (onHistoryIdx < history.length - 1) {
       onHistoryIdx++;
-      input.value = history[onHistoryIdx].command;
+      // input.value = history[onHistoryIdx].command;
+      input.value = unEscapeHTML(history[onHistoryIdx].command);
     } else if (onHistoryIdx < history.length) {
       onHistoryIdx++;
       input.value = "";

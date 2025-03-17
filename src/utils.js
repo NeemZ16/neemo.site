@@ -24,6 +24,15 @@ export function escapeHTML(input) {
     .replace(/'/g, "&#039;");
 }
 
+export function unEscapeHTML(input) {
+  return input
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&quot;", '\"')
+    .replaceAll("&#039;", "\'");
+}
+
 export function replacePrompt() {
   const domain = document.createElement("span");
   domain.innerHTML = "@" + window.location.hostname;
