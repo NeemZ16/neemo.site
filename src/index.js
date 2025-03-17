@@ -3,6 +3,7 @@ import { displayBanner } from './handlers.js';
 
 export const terminal = document.getElementById("terminal");
 export let dir = "~";
+let onHistoryIdx;
 
 export function processCommand(cmd) {
   if (!cmd) {
@@ -32,6 +33,9 @@ export function processCommand(cmd) {
   // add item to history and set history
   history.push(histItem);
   localStorage.setItem('history', JSON.stringify(history));
+
+  // reset global onHistoryIdx
+  onHistoryIdx = history.length;
 
   // show response in terminal
   terminal.appendChild(response);
@@ -71,16 +75,47 @@ function runOnLoad() {
     displayHistory(history);
   }
 
+  // set global onHistoryIdx
+  onHistoryIdx = history.length;
+
   displayPrompt();
 }
 
 // click anywhere on terminal to focus input
 terminal.addEventListener("click", () => {
   const input = document.querySelector("input");
-  console.log("CLICKED")
   input.focus();
 })
 
-// TODO: up/down to cycle through history
+// up/down to cycle through history
+terminal.addEventListener("keydown", (e) => {
+  // do nothing if no history
+  let history = localStorage.getItem('history');
+  if (!history || e.key !== "ArrowUp" && e.key !== "ArrowDown") {
+    return;
+  }
+
+  history = JSON.parse(history);
+  const input = document.querySelector("input");
+  console.log(history);
+
+  if (e.key === "ArrowUp") {
+    // cycle up through history
+    if (onHistoryIdx >= 1) {
+      onHistoryIdx--;
+    }
+    input.value = history[onHistoryIdx].command;
+  
+  } else if (e.key === "ArrowDown") {
+    // cycle down through history
+    if (onHistoryIdx < history.length - 1) {
+      onHistoryIdx++;
+      input.value = history[onHistoryIdx].command;
+    } else if (onHistoryIdx < history.length) {
+      onHistoryIdx++;
+      input.value = "";
+    }
+  }
+})
 
 runOnLoad()
