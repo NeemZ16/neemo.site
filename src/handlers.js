@@ -1,12 +1,12 @@
 import { fetchHelpContent } from "./utils.js";
 
 const docs = await fetchHelpContent();
-const helpTextContent = "Type 'help' for list of supported commands. THIS SITE IS A WORK IN PROGRESS!!!!";
+const helpTextContent = "Type 'help' for list of supported commands.";
 
 // COMMAND: unrecognized
 export function handleDefault(cmd) {
   // if not allowed show command not recognized
-  return `${cmd}: command not recognized${helpTextContent}`;
+  return `${cmd}: command not recognized. ${helpTextContent}`;
 }
 
 // COMMAND: banner
@@ -47,9 +47,8 @@ export function handleHelp(args) {
   // show help text for all commands
   return `SUPPORTED COMMANDS:
   - help [command] - shows detailed information for each command
-  - cd - change directory
-  - ls 
-  - cat
+  - ls - list files
+  - cat - write to files or view content from files
   - echo - print a string to the terminal
   - banner - display default banner
   - whoisneem

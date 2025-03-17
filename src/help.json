@@ -13,8 +13,6 @@
   "history": "history: Print command history",
   "repo": "repo: Open GitHub repository for this project",
   "cat": "cat [filename]: Print contents of file",
-  "ls": "ls",
-  "cd": "cd",
   "contact": {
     "base": "contact: Print contact information and links",
     "options": {
