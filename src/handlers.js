@@ -111,3 +111,7 @@ export function handleHistory(res) {
 
   res.innerHTML = resText;
 }
+
+export function handleContact(res) {
+  
+}
