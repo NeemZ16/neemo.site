@@ -47,7 +47,8 @@ export function handleHelp(args) {
   // show help text for all commands
   return `SUPPORTED COMMANDS:
   - help [command] - shows detailed information for each command
-  - ls - list files
+  - ls - list files in current directory
+  - cd - change directory
   - cat - write to files or view content from files
   - echo - print a string to the terminal
   - banner - display default banner
