@@ -28,37 +28,45 @@ export function displayBanner(res) {
 }
 
 // COMMAND: help
-export function handleHelp(args) {
+export function handleHelp(args, res) {
   if (args.length > 1) {
-    return `Usage: help [command]`;
-  }
+    // show usage hint for help
+    res.innerText = `Usage: ${docs.help.usage}`;
 
-  // show help text for single command if supported
-  if (args.length === 1) {
-    console.log("docs", docs);
-    if (docs[args[0]]) {
-      return docs[args[0]];
-    } else {
-      return `help: ${args[0]} is not a supported command
-              ${helpTextContent}`;
+  } else if (args.length === 1) {
+    // unsupported cmd
+    const helpCmd = args[0];
+    if (!(helpCmd in docs)) {
+      res.innerText = `${helpCmd}: command not recognized. ${helpTextContent}`;
+      return
     }
-  }
+    
+    // show base
+    const returnHelp = document.createElement("pre");
+    let helpText = `${helpCmd}: ${docs[helpCmd].base}`
+    
+    // show options
+    if (Object.keys(docs[helpCmd].options).length > 0) {
+      helpText += "\n\nOptions:"
+      for (const [key, value] of Object.entries(docs[helpCmd].options)) {
+        helpText += `\n  ${key}: ${value}`
+      }
+    }
 
-  // show help text for all commands
-  return `SUPPORTED COMMANDS:
-  - help [command] - shows detailed information for each command
-  - ls - list files in current directory
-  - cd - change directory
-  - cat - write to files or view content from files
-  - echo - print a string to the terminal
-  - banner - display default banner
-  - whoisneem
-  - whoami - display current user
-  - hostname - display current hostname
-  - contact - display links to email and linkedin
-  - repo - open repo on github in new tab
-  - history - print command history
-  - clear - clear terminal and command history`;
+    // show usage
+    helpText += `\n\nUsage: ${docs[helpCmd].usage}`
+
+    returnHelp.innerText = helpText;
+    res.appendChild(returnHelp);
+
+  } else {
+    // show help text for all commands
+    let helpText = "SUPPORTED COMMANDS:";
+    for (const [key, value] of Object.entries(docs)) {
+      helpText += `\n- ${key} - ${value.base}`
+    };
+    res.innerText = helpText;
+  }
 }
 
 // COMMAND: repo
@@ -113,5 +121,5 @@ export function handleHistory(res) {
 }
 
 export function handleContact(res) {
-  
+
 }

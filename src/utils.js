@@ -160,13 +160,11 @@ export function handleInput(command, args, response) {
       response.innerText = 'hi there! type \'help\' to see what you can do :)';
       break;
     case 'help':
-      response.innerText = handleHelp(args);
-      break;
-    case 'cd':
+      handleHelp(args, response);
       break;
     case 'ls':
       break;
-    case 'cat':
+    case 'open':
       break;
     case 'banner':
       displayBanner(response);

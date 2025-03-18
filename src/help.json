@@ -6,10 +6,10 @@
         },
         "usage": "help [command]"
     },
-    "whoisneem": {
+    "about": {
         "base": "About me!",
         "options": {},
-        "usage": "whoisneem"
+        "usage": "about"
     },
     "contact": {
         "base": "Display contact options and links.",
@@ -27,7 +27,7 @@
         "usage": "ls [options]"
     },
     "open": {
-        "base": "Open file.",
+        "base": "Open a file.",
         "options": {},
         "usage": "open [filename]"
     },
