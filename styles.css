@@ -74,6 +74,11 @@ input, input:focus-visible {
   caret-color: var(--text-color);
 }
 
+a {
+  color: #7ff87f;
+  text-decoration: underline;
+}
+
 /* media queries */
 @media (max-width: 600px) {
   :root {

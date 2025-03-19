@@ -1,5 +1,5 @@
 {
-    "help" : {
+    "help": {
         "base": "Display commands and basic functionality.",
         "options": {
             "command": "Display more in depth information about a specific command."
@@ -14,10 +14,9 @@
     "contact": {
         "base": "Display contact options and links.",
         "options": {
-            "-o [contact method]": "Open contact method (e.g. LinkedIn, Email, Github) in new tab/window.",
             "-m [message content]": "Leave me a message!"
         },
-        "usage": "contact [options]"
+        "usage": "contact [-m] [message content]"
     },
     "ls": {
         "base": "List items in current directory.",
@@ -69,5 +68,4 @@
         "options": {},
         "usage": "repo"
     }
-
 }

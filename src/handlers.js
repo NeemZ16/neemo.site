@@ -40,11 +40,11 @@ function handleHelp(args, res) {
       res.innerText = `${helpCmd}: command not recognized. ${helpTextContent}`;
       return
     }
-    
+
     // show base
     const returnHelp = document.createElement("pre");
     let helpText = `${helpCmd}: ${docs[helpCmd].base}`
-    
+
     // show options
     if (Object.keys(docs[helpCmd].options).length > 0) {
       helpText += "\n\nOptions:"
@@ -120,8 +120,74 @@ function handleHistory(res) {
   res.innerHTML = resText;
 }
 
-function handleContact(res) {
-  res.innerText = "IMPLEMENTATION IN PROGRESS";
+// COMMAND: contact
+function handleContact(args, res) {
+  if (args.length === 0) {
+    const emailLink = document.createElement("a");
+    emailLink.href = "mailto:neemzam2+site@gmail.com?subject=Site%20Message%20-%20";
+    emailLink.target = "_blank";
+    emailLink.textContent = "neemzam2[at]gmail.com";
+
+    const githubLink = document.createElement("a");
+    githubLink.href = "https://github.com/Neemz16";
+    githubLink.target = "_blank";
+    githubLink.textContent = "github.com/Neemz16";
+
+    const linkedinLink = document.createElement("a");
+    linkedinLink.href = "https://www.linkedin.com/in/neem-zaman";
+    linkedinLink.target = "_blank";
+    linkedinLink.textContent = "linkedin.com/in/neem-zaman";
+
+    const email = document.createElement("p");
+    email.textContent = "- Email: ";
+    email.appendChild(emailLink);
+
+    const github = document.createElement("p");
+    github.textContent = "- GitHub: ";
+    github.appendChild(githubLink);
+
+    const linkedin = document.createElement("p");
+    linkedin.textContent = "- LinkedIn: ";
+    linkedin.appendChild(linkedinLink);
+
+    res.appendChild(linkedin);
+    res.appendChild(email);
+    res.appendChild(github);
+  
+  } else if (args.length === 1 && args[0] === "-m") {
+    res.innerText = "Please provide a message after '-m'."
+  } else if (args[0] === "-m") {
+    res.innerText = "IMPLEMENTATION IN PROGRESS";
+  } else {
+    res.innerText = `Usage: ${docs.contact.usage}. Type 'help contact' for more information.`;
+  }
+}
+
+// COMMAND: ls
+function handleLs(args, res) {
+  let ret = "blog.html\tnotes.md";
+  if (args.length > 1) {
+    ret = `Usage: ${docs.ls.usage}`;
+  } else if (args.length === 1 && args[0] == "-a") {
+    ret += "\t.secrets.txt";
+  } else if (args.length === 1) {
+    ret = `Usage: ${docs.ls.usage}. Type 'help ls' for more information.`;
+  }
+
+  const pre = document.createElement("pre");
+  pre.innerText = ret;
+  res.appendChild(pre);
+}
+
+// COMMAND: open
+function handleOpen(args, res) {
+  if (args.length === 0) {
+    res.innerText = "Please choose which file you want to open. Type 'ls' to see available files."
+  } else if (args.length === 1) {
+    res.innerText = "IMPLEMENTATION IN PROGRESS"
+  } else {
+    res.innerText = `Usage: ${docs.open.usage}`
+  }
 }
 
 /**
@@ -135,7 +201,7 @@ function handleContact(res) {
 export function handleInput(command, args, response) {
 
   // if command doesn't take arguments show noArgs message if args provided
-  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
+  const noArgsCmds = ['banner', 'about', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
   if (noArgsCmds.includes(command) && args.length > 0) {
     response.innerText = `${command}: command does not support arguments`;
     return;
@@ -150,8 +216,10 @@ export function handleInput(command, args, response) {
       handleHelp(args, response);
       break;
     case 'ls':
+      handleLs(args, response);
       break;
     case 'open':
+      handleOpen(args, response);
       break;
     case 'banner':
       displayBanner(response);
@@ -165,7 +233,7 @@ export function handleInput(command, args, response) {
       response.innerText = window.location.hostname;
       break;
     case 'contact':
-      handleContact(response);
+      handleContact(args, response);
       break;
     case 'repo':
       handleRepo(response);
