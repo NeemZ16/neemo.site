@@ -4,9 +4,9 @@ const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
 
 // COMMAND: unrecognized
-export function handleDefault(cmd) {
+function handleDefault(cmd, res) {
   // if not allowed show command not recognized
-  return `${cmd}: command not recognized. ${helpTextContent}`;
+  res.innerText = `${cmd}: command not recognized. ${helpTextContent}`;
 }
 
 // COMMAND: banner
@@ -28,40 +28,49 @@ export function displayBanner(res) {
 }
 
 // COMMAND: help
-export function handleHelp(args) {
+function handleHelp(args, res) {
   if (args.length > 1) {
-    return `Usage: help [command]`;
-  }
+    // show usage hint for help
+    res.innerText = `Usage: ${docs.help.usage}`;
 
-  // show help text for single command if supported
-  if (args.length === 1) {
-    console.log("docs", docs);
-    if (docs[args[0]]) {
-      return docs[args[0]];
-    } else {
-      return `help: ${args[0]} is not a supported command
-              ${helpTextContent}`;
+  } else if (args.length === 1) {
+    // unsupported cmd
+    const helpCmd = args[0];
+    if (!(helpCmd in docs)) {
+      res.innerText = `${helpCmd}: command not recognized. ${helpTextContent}`;
+      return
     }
-  }
+    
+    // show base
+    const returnHelp = document.createElement("pre");
+    let helpText = `${helpCmd}: ${docs[helpCmd].base}`
+    
+    // show options
+    if (Object.keys(docs[helpCmd].options).length > 0) {
+      helpText += "\n\nOptions:"
+      for (const [key, value] of Object.entries(docs[helpCmd].options)) {
+        helpText += `\n  ${key}: ${value}`
+      }
+    }
 
-  // show help text for all commands
-  return `SUPPORTED COMMANDS:
-  - help [command] - shows detailed information for each command
-  - ls - list files
-  - cat - write to files or view content from files
-  - echo - print a string to the terminal
-  - banner - display default banner
-  - whoisneem
-  - whoami - display current user
-  - hostname - display current hostname
-  - contact - display links to email and linkedin
-  - repo - open repo on github in new tab
-  - history - print command history
-  - clear - clear terminal and command history`;
+    // show usage
+    helpText += `\n\nUsage: ${docs[helpCmd].usage}`
+
+    returnHelp.innerText = helpText;
+    res.appendChild(returnHelp);
+
+  } else {
+    // show help text for all commands
+    let helpText = "SUPPORTED COMMANDS:";
+    for (const [key, value] of Object.entries(docs)) {
+      helpText += `\n- ${key} - ${value.base}`
+    };
+    res.innerText = helpText;
+  }
 }
 
 // COMMAND: repo
-export function handleRepo(res) {
+function handleRepo(res) {
   const URL = 'https://github.com/NeemZ16/neemo-emu';
   res.innerText = "Opening repository in new tab...";
 
@@ -76,7 +85,7 @@ export function handleRepo(res) {
 }
 
 // COMMAND: clear
-export function handleClear() {
+function handleClear() {
   localStorage.removeItem('history');
 
   const terminal = document.getElementById("terminal");
@@ -84,7 +93,7 @@ export function handleClear() {
 }
 
 // COMMAND: history
-export function handleHistory(res) {
+function handleHistory(res) {
   let history = localStorage.getItem('history');
   if (!history) {
     res.innerHTML = "No history found";
@@ -111,6 +120,68 @@ export function handleHistory(res) {
   res.innerHTML = resText;
 }
 
-export function handleContact(res) {
-  
+function handleContact(res) {
+  res.innerText = "IMPLEMENTATION IN PROGRESS";
+}
+
+/**
+ * Handles input and calls appropriate handler function. 
+ * Sets response innerText.
+ * 
+ * @param {string} command 
+ * @param {Array<string>} args 
+ * @param {HTMLParagraphElement} response 
+ */
+export function handleInput(command, args, response) {
+
+  // if command doesn't take arguments show noArgs message if args provided
+  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
+  if (noArgsCmds.includes(command) && args.length > 0) {
+    response.innerText = `${command}: command does not support arguments`;
+    return;
+  }
+
+  switch (command) {
+    case 'hello':
+    case 'hi':
+      response.innerText = 'hi there! type \'help\' to see what you can do :)';
+      break;
+    case 'help':
+      handleHelp(args, response);
+      break;
+    case 'ls':
+      break;
+    case 'open':
+      break;
+    case 'banner':
+      displayBanner(response);
+      break;
+    case 'whoisneem':
+      break;
+    case 'whoami':
+      response.innerText = 'guest';
+      break;
+    case 'hostname':
+      response.innerText = window.location.hostname;
+      break;
+    case 'contact':
+      handleContact(response);
+      break;
+    case 'repo':
+      handleRepo(response);
+      break;
+    case 'history':
+      handleHistory(response);
+      break;
+    case 'clear':
+      handleClear();
+      break;
+    case 'echo':
+      // HTML already being escaped when process command called
+      response.innerHTML = args.join(" ");
+      break;
+    default:
+      handleDefault(command, response);
+      break;
+  }
 }

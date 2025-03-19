@@ -1,22 +1,73 @@
 {
-  "help": {
-    "base": "help: List all allowed commands and w",
-    "options": {
-      "[command]": "Display information about a specific command"
+    "help" : {
+        "base": "Display commands and basic functionality.",
+        "options": {
+            "command": "Display more in depth information about a specific command."
+        },
+        "usage": "help [command]"
+    },
+    "about": {
+        "base": "About me!",
+        "options": {},
+        "usage": "about"
+    },
+    "contact": {
+        "base": "Display contact options and links.",
+        "options": {
+            "-o [contact method]": "Open contact method (e.g. LinkedIn, Email, Github) in new tab/window.",
+            "-m [message content]": "Leave me a message!"
+        },
+        "usage": "contact [options]"
+    },
+    "ls": {
+        "base": "List items in current directory.",
+        "options": {
+            "-a": "List all items, including hidden items, in current directory."
+        },
+        "usage": "ls [options]"
+    },
+    "open": {
+        "base": "Open a file.",
+        "options": {},
+        "usage": "open [filename]"
+    },
+    "echo": {
+        "base": "Write a string to stdout or to a file.",
+        "options": {
+            ">> [filename]": "Append content to file.",
+            "> [filename]": "Write content to new file."
+        },
+        "usage": "echo [content] [options]"
+    },
+    "banner": {
+        "base": "Display site banner.",
+        "options": {},
+        "usage": "banner"
+    },
+    "history": {
+        "base": "Display command history.",
+        "options": {},
+        "usage": "history"
+    },
+    "clear": {
+        "base": "Clear terminal and command history.",
+        "options": {},
+        "usage": "clear"
+    },
+    "whoami": {
+        "base": "Display current user.",
+        "options": {},
+        "usage": "whoami"
+    },
+    "hostname": {
+        "base": "Display current hostname.",
+        "options": {},
+        "usage": "hostname"
+    },
+    "repo": {
+        "base": "Open GitHub repository for this site on a new tab.",
+        "options": {},
+        "usage": "repo"
     }
-  },
-  "banner": "banner: Display ASCII banner",
-  "clear": "clear: Clear terminal screen and command history",
-  "echo": "echo [text]: Print text to terminal screen",
-  "whoami": "whoami: Display current logged in user",
-  "hostname": "hostname: Display name of host system",
-  "history": "history: Print command history",
-  "repo": "repo: Open GitHub repository for this project",
-  "cat": "cat [filename]: Print contents of file",
-  "contact": {
-    "base": "contact: Print contact information and links",
-    "options": {
-      "-m <message> [-from <your name/email>]": "Send an email containing some message. Optionally, include who you are :)"
-    }
-  }
+
 }

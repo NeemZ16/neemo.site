@@ -1,5 +1,5 @@
-import { replacePrompt, displayPrompt, handleInput, displayHistory, unEscapeHTML } from './utils.js';
-import { displayBanner } from './handlers.js';
+import { replacePrompt, displayPrompt, displayHistory, unEscapeHTML } from './utils.js';
+import { displayBanner, handleInput } from './handlers.js';
 
 export const terminal = document.getElementById("terminal");
 export let dir = "~";
@@ -19,7 +19,7 @@ export function processCommand(cmd) {
 
   // process and handle input
   const splitCmd = cmd.split(' ');
-  const command = splitCmd[0];
+  const command = splitCmd[0].toLowerCase();
   const args = splitCmd.splice(1);
   handleInput(command, args, response);
 
@@ -82,13 +82,16 @@ function runOnLoad() {
 }
 
 // click anywhere on terminal to focus input
-terminal.addEventListener("click", () => {
-  const input = document.querySelector("input");
-  input.focus();
-})
+// terminal.addEventListener("click", () => {
+//   const input = document.querySelector("input");
+//   input.focus();
+// })
 
 // up/down to cycle through history
-terminal.addEventListener("keydown", (e) => {
+window.addEventListener("keydown", (e) => {
+  const input = document.querySelector("input");
+  input.focus();
+  
   // do nothing if no history
   let history = localStorage.getItem('history');
   if (!history || e.key !== "ArrowUp" && e.key !== "ArrowDown") {
@@ -96,7 +99,6 @@ terminal.addEventListener("keydown", (e) => {
   }
 
   history = JSON.parse(history);
-  const input = document.querySelector("input");
 
   if (e.key === "ArrowUp") {
     // cycle up through history
