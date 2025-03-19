@@ -4,9 +4,9 @@ const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
 
 // COMMAND: unrecognized
-export function handleDefault(cmd) {
+function handleDefault(cmd, res) {
   // if not allowed show command not recognized
-  return `${cmd}: command not recognized. ${helpTextContent}`;
+  res.innerText = `${cmd}: command not recognized. ${helpTextContent}`;
 }
 
 // COMMAND: banner
@@ -28,7 +28,7 @@ export function displayBanner(res) {
 }
 
 // COMMAND: help
-export function handleHelp(args, res) {
+function handleHelp(args, res) {
   if (args.length > 1) {
     // show usage hint for help
     res.innerText = `Usage: ${docs.help.usage}`;
@@ -70,7 +70,7 @@ export function handleHelp(args, res) {
 }
 
 // COMMAND: repo
-export function handleRepo(res) {
+function handleRepo(res) {
   const URL = 'https://github.com/NeemZ16/neemo-emu';
   res.innerText = "Opening repository in new tab...";
 
@@ -85,7 +85,7 @@ export function handleRepo(res) {
 }
 
 // COMMAND: clear
-export function handleClear() {
+function handleClear() {
   localStorage.removeItem('history');
 
   const terminal = document.getElementById("terminal");
@@ -93,7 +93,7 @@ export function handleClear() {
 }
 
 // COMMAND: history
-export function handleHistory(res) {
+function handleHistory(res) {
   let history = localStorage.getItem('history');
   if (!history) {
     res.innerHTML = "No history found";
@@ -120,6 +120,68 @@ export function handleHistory(res) {
   res.innerHTML = resText;
 }
 
-export function handleContact(res) {
+function handleContact(res) {
+  res.innerText = "IMPLEMENTATION IN PROGRESS";
+}
 
+/**
+ * Handles input and calls appropriate handler function. 
+ * Sets response innerText.
+ * 
+ * @param {string} command 
+ * @param {Array<string>} args 
+ * @param {HTMLParagraphElement} response 
+ */
+export function handleInput(command, args, response) {
+
+  // if command doesn't take arguments show noArgs message if args provided
+  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
+  if (noArgsCmds.includes(command) && args.length > 0) {
+    response.innerText = `${command}: command does not support arguments`;
+    return;
+  }
+
+  switch (command) {
+    case 'hello':
+    case 'hi':
+      response.innerText = 'hi there! type \'help\' to see what you can do :)';
+      break;
+    case 'help':
+      handleHelp(args, response);
+      break;
+    case 'ls':
+      break;
+    case 'open':
+      break;
+    case 'banner':
+      displayBanner(response);
+      break;
+    case 'whoisneem':
+      break;
+    case 'whoami':
+      response.innerText = 'guest';
+      break;
+    case 'hostname':
+      response.innerText = window.location.hostname;
+      break;
+    case 'contact':
+      handleContact(response);
+      break;
+    case 'repo':
+      handleRepo(response);
+      break;
+    case 'history':
+      handleHistory(response);
+      break;
+    case 'clear':
+      handleClear();
+      break;
+    case 'echo':
+      // HTML already being escaped when process command called
+      response.innerHTML = args.join(" ");
+      break;
+    default:
+      handleDefault(command, response);
+      break;
+  }
 }

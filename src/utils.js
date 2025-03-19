@@ -1,5 +1,4 @@
 import { terminal, dir, processCommand } from './index.js'
-import { displayBanner, handleHelp, handleDefault, handleRepo, handleClear, handleHistory } from './handlers.js';
 
 /**
  * get json data for all commands
@@ -134,66 +133,5 @@ export function displayHistory(history) {
     prompt.appendChild(lastCommand);
     terminal.appendChild(prompt);
     terminal.appendChild(lastResponse);
-  }
-}
-
-/**
- * Handles input and calls appropriate handler function. 
- * Sets response innerText.
- * 
- * @param {string} command 
- * @param {Array<string>} args 
- * @param {HTMLParagraphElement} response 
- */
-export function handleInput(command, args, response) {
-
-  // if command doesn't take arguments show noArgs message if args provided
-  const noArgsCmds = ['banner', 'whoami', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
-  if (noArgsCmds.includes(command) && args.length > 0) {
-    response.innerText = `${command}: command does not support arguments`;
-    return;
-  }
-
-  switch (command) {
-    case 'hello':
-    case 'hi':
-      response.innerText = 'hi there! type \'help\' to see what you can do :)';
-      break;
-    case 'help':
-      handleHelp(args, response);
-      break;
-    case 'ls':
-      break;
-    case 'open':
-      break;
-    case 'banner':
-      displayBanner(response);
-      break;
-    case 'whoisneem':
-      break;
-    case 'whoami':
-      response.innerText = 'guest';
-      break;
-    case 'hostname':
-      response.innerText = window.location.hostname;
-      break;
-    case 'contact':
-      break;
-    case 'repo':
-      handleRepo(response);
-      break;
-    case 'history':
-      handleHistory(response);
-      break;
-    case 'clear':
-      handleClear();
-      break;
-    case 'echo':
-      // HTML already being escaped when process command called
-      response.innerHTML = args.join(" ");
-      break;
-    default:
-      response.innerHTML = handleDefault(command);
-      break;
   }
 }
