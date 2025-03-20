@@ -75,13 +75,39 @@ input, input:focus-visible {
 }
 
 a {
-  color: #7ff87f;
+  color: rgb(127, 223, 255);
   text-decoration: underline;
+}
+
+img {
+  width: 300px;
+  border-radius: 5px;
+}
+
+.blue {
+  color: rgb(127, 223, 255);
+}
+
+.green {
+  color: #7ff87f;
+}
+
+.limWidth {
+  max-width: 75ch;
 }
 
 /* media queries */
 @media (max-width: 600px) {
   :root {
     --font-size: 0.75rem;
+    --bg-color: #000;
+  }
+
+  body {
+    padding: 0px;
+  }
+
+  img {
+    width: 150px;
   }
 }

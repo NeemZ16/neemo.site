@@ -165,17 +165,18 @@ function handleContact(args, res) {
 
 // COMMAND: ls
 function handleLs(args, res) {
-  let ret = "blog.html\tnotes.txt";
+  let ret = "blog.html\tnotes.txt\tabout";
   if (args.length > 1) {
     ret = `Usage: ${docs.ls.usage}`;
   } else if (args.length === 1 && args[0] == "-a") {
-    ret += "\t.secrets.txt";
+    ret = ".secrets.txt\t" + ret;
   } else if (args.length === 1) {
     ret = `Usage: ${docs.ls.usage}. Type 'help ls' for more information.`;
   }
 
   const pre = document.createElement("pre");
   pre.innerText = ret;
+  pre.classList.add("blue");
   res.appendChild(pre);
 }
 
@@ -193,6 +194,8 @@ function handleOpen(args, res) {
       ret = "No notes yet!";
     } else if (args[0] == ".secrets.txt") {
       ret = "🥚";
+    } else if (args[0] == "about") {
+      ret = "IMPLEMENTATION IN PROGRESS";
     }
 
     res.innerText = ret;
@@ -204,9 +207,26 @@ function handleOpen(args, res) {
 // COMMAND: about
 function handleAbout(res) {
   const bio = document.createElement("p");
+  bio.classList.add("limWidth");
+  const projects = document.createElement("p");
+  const exp = document.createElement("p");
+  const skills = document.createElement("p");
+  const img = document.createElement("img");
 
+  img.src = "neem.png";
+  img.alt = "Neem in front of plants";
 
-  res.innerText = "IMPLEMENTATION IN PROGRESS";
+  bio.innerHTML = "Hi! I'm Neem and I'm a <span class='blue'>Fullstack Software Engineer</span>. ";
+  
+
+  res.appendChild(img);
+  res.appendChild(bio);
+  
+  res.innerHTML += "<br><p>LINKS:</p>"
+  handleContact([], res);
+  
+  res.innerHTML += "<br>";
+  res.innerHTML += "To learn more, type 'open about'";
 }
 
 // COMMAND: echo
@@ -225,7 +245,7 @@ function handleEcho(args, res) {
     const op = args[args.length - 2];
     const content = unEscapeHTML(args.slice(0, args.length - 2).join(" "));
 
-    // check filename
+    // check action
     let action = "append";
     if (op == escWriteOp) {action = "write";}
     

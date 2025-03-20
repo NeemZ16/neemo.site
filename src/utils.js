@@ -33,17 +33,7 @@ export function unEscapeHTML(input) {
 }
 
 export function replacePrompt() {
-  const domain = document.createElement("span");
-  domain.innerHTML = "@" + window.location.hostname;
-  domain.classList.add("domain");
-
-  const user = document.createElement("span");
-  user.classList.add("user");
-  user.innerHTML = "guest";
-
-  const directory = document.createElement("span");
-  directory.classList.add("directory");
-  directory.innerHTML = ":" + dir + " $&nbsp;";
+  const [domain, user, directory] = getPromptElements();
 
   const lastCommand = document.createElement("p");
 
@@ -66,18 +56,7 @@ export function replacePrompt() {
 }
 
 export function displayPrompt() {
-  // create spans for prompt
-  const domain = document.createElement("span");
-  domain.innerHTML = "@" + window.location.hostname;
-  domain.classList.add("domain");
-
-  const user = document.createElement("span");
-  user.classList.add("user");
-  user.innerHTML = "guest";
-
-  const directory = document.createElement("span");
-  directory.classList.add("directory");
-  directory.innerHTML = ":" + dir + " $&nbsp;";
+  const [domain, user, directory] = getPromptElements();
 
   // create input and process command
   const input = document.createElement("input");
@@ -102,21 +81,11 @@ export function displayPrompt() {
 
 export function displayHistory(history) {
   // display each command and response
-  for (let i=0; i < history.length; i++) {
+  for (let i = 0; i < history.length; i++) {
     const req = history[i].command;
     const res = history[i].response;
 
-    const domain = document.createElement("span");
-    domain.innerHTML = "@" + window.location.hostname;
-    domain.classList.add("domain");
-
-    const user = document.createElement("span");
-    user.classList.add("user");
-    user.innerHTML = "guest";
-
-    const directory = document.createElement("span");
-    directory.classList.add("directory");
-    directory.innerHTML = ":" + dir + " $&nbsp;";
+    const [domain, user, directory] = getPromptElements();
 
     const lastCommand = document.createElement("p");
     lastCommand.innerHTML = req;
@@ -134,4 +103,20 @@ export function displayHistory(history) {
     terminal.appendChild(prompt);
     terminal.appendChild(lastResponse);
   }
+}
+
+function getPromptElements() {
+  const domain = document.createElement("span");
+  domain.innerHTML = "@" + window.location.hostname;
+  domain.classList.add("domain", "green");
+
+  const user = document.createElement("span");
+  user.classList.add("user", "green");
+  user.innerHTML = "guest";
+
+  const directory = document.createElement("span");
+  directory.classList.add("directory");
+  directory.innerHTML = ":" + dir + " $&nbsp;";
+
+  return [domain, user, directory];
 }
