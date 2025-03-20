@@ -39,9 +39,7 @@ export async function processCommand(cmd) {
   history = history ? JSON.parse(history) : [];
 
   // create command/response object
-  // const histItem = { "command": cmd, "response": response.innerHTML };
   const histItem = { "command": cmd, "response": givenResponse.innerHTML };
-
 
   // add item to history and set history
   history.push(histItem);
