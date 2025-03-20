@@ -140,11 +140,8 @@ export function formatDate(isoString) {
   const formattedHours = hours < 10 ? `0${hours}` : hours; // Ensure two-digit hours
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes; // Ensure two-digit minutes
 
-  // Determine AM or PM
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-
   // Construct the final formatted string
-  return `${month} ${day}, ${year} - ${formattedHours}:${formattedMinutes}${ampm}`;
+  return `${month} ${day}, ${year} - ${formattedHours}:${formattedMinutes}`;
 }
 
 // Function to fetch notes and return them as a Promise
