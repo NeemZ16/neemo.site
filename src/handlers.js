@@ -176,7 +176,7 @@ function handleLs(args, res) {
 
   const pre = document.createElement("pre");
   pre.innerText = ret;
-  pre.classList.add("blue");
+  pre.classList.add("yellow");
   res.appendChild(pre);
 }
 
@@ -209,20 +209,37 @@ function handleAbout(res) {
   const bio = document.createElement("p");
   bio.classList.add("limWidth");
   const projects = document.createElement("p");
-  const exp = document.createElement("p");
   const skills = document.createElement("p");
   const img = document.createElement("img");
-
+  
+  // set img content
   img.src = "neem.png";
   img.alt = "Neem in front of plants";
-
-  bio.innerHTML = "Hi! I'm Neem and I'm a <span class='blue'>Fullstack Software Engineer</span>. ";
-  
-
   res.appendChild(img);
+
+  // set bio content
+  bio.innerHTML = "Hi! I'm <span class='green'>Neem</span> and I'm a <span class='yellow'>Fullstack Software Engineer</span>. ";
+  bio.innerHTML += "I will be graduating from the <span class='green'>University at Buffalo</span> with a BS in <span class='yellow'>Computer Science</span> in <span class='green'>May 2025</span>. ";
+  bio.innerHTML += "I enjoy tinkering with systems to figure out how they work, and I love building things.";
   res.appendChild(bio);
   
-  res.innerHTML += "<br><p>LINKS:</p>"
+  // set skills content
+  skills.innerHTML = "<br>My go-to <span class='green'>technologies</span>:";
+  skills.innerHTML += "<br>- Languages: JavaScript, TypeScript, Python, Java";
+  skills.innerHTML += "<br>- Databases: SQL (MySQL, PostgreSQL), MongoDB";
+  skills.innerHTML += "<br>- Frameworks: React, Express, Flask, Django";
+  res.appendChild(skills);
+
+  // set projects content
+  projects.innerHTML = "<br>Here are some projects I have worked on:";
+  projects.innerHTML += "<br>- <a href='https://devu.app' target='_blank'>DevU</a> - Autograding platform for the CSE department at UB featuring an open API";
+  projects.innerHTML += "<br>- <a href='https://unfold.studio' target='blank'>Unfold Studio</a> - Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>";
+  projects.innerHTML += "<br>- <a href=''>This site :)</a> - Feel free to explore, there are some hidden easter eggs...";
+  projects.innerHTML += "<br>- <span class='green'>Ludu</span> - [IN PROGRESS] An online multiplayer version of the popular boardgame!";
+  res.appendChild(projects);
+  
+  // show contact
+  res.innerHTML += "<br><p class='green'>LINKS:</p>"
   handleContact([], res);
   
   res.innerHTML += "<br>";
