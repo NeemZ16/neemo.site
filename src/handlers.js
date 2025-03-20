@@ -220,7 +220,7 @@ function handleAbout(res) {
   // set bio content
   bio.innerHTML = "Hi! I'm <span class='green'>Neem</span> and I'm a <span class='yellow'>Fullstack Software Engineer</span>. ";
   bio.innerHTML += "I will be graduating from the <span class='green'>University at Buffalo</span> with a BS in <span class='yellow'>Computer Science</span> in <span class='green'>May 2025</span>. ";
-  bio.innerHTML += "I enjoy tinkering with systems to figure out how they work, and I love building things.";
+  bio.innerHTML += "I enjoy tinkering with systems to figure out how they work, and I love <span class='yellow'>building</span> things (software, wood, 3D printing, fabric, anything really...)";
   res.appendChild(bio);
   
   // set skills content
@@ -231,7 +231,7 @@ function handleAbout(res) {
   res.appendChild(skills);
 
   // set projects content
-  projects.innerHTML = "<br>Here are some projects I have worked on:";
+  projects.innerHTML = "<br>Here are some <span class='green'>projects</span> I have worked on:";
   projects.innerHTML += "<br>- <a href='https://devu.app' target='_blank'>DevU</a> - Autograding platform for the CSE department at UB featuring an open API";
   projects.innerHTML += "<br>- <a href='https://unfold.studio' target='blank'>Unfold Studio</a> - Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>";
   projects.innerHTML += "<br>- <a href=''>This site :)</a> - Feel free to explore, there are some hidden easter eggs...";
