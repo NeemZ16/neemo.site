@@ -2,7 +2,7 @@
     "help": {
         "base": "Display commands and basic functionality.",
         "options": {
-            "command": "Display more in depth information about a specific command."
+            "[command]": "Display more in depth information about a specific command."
         },
         "usage": "help [command]"
     },

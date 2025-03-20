@@ -63,9 +63,9 @@ function handleHelp(args, res) {
     // show help text for all commands
     let helpText = "SUPPORTED COMMANDS:";
     for (const [key, value] of Object.entries(docs)) {
-      helpText += `\n- ${key} - ${value.base}`
+      helpText += `<p>- <span class="yellow">${key}</span> - ${value.base}</p>`
     };
-    res.innerText = helpText;
+    res.innerHTML = helpText;
   }
 }
 
