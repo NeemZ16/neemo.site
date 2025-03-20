@@ -1,4 +1,6 @@
-import { fetchHelpContent, escapeHTML, unEscapeHTML } from "./utils.js";
+import { fetchHelpContent, escapeHTML, fetchNotes } from "./utils.js";
+import { notesDB } from "./index.js";
+import { push, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
@@ -182,24 +184,30 @@ function handleLs(args, res) {
 }
 
 // COMMAND: open
-function handleOpen(args, res) {
+async function handleOpen(args, res) {
   if (args.length === 0) {
     res.innerText = "Please choose which file you want to open. Type 'ls' to see available files.";
   } else if (args.length === 1) {
-    // TODO: complete implementation
     let ret = "open: Requested file not found. Type 'ls' to see available files.";
 
     if (args[0] == "blog.html") {
       ret = "No blog entries yet!";
+
     } else if (args[0] == "notes.txt") {
-      ret = "No notes yet!";
+      const notes = await fetchNotes();
+      ret = "NOTES:";
+      for (const note of notes) {
+        ret += `<br>- ${note}`;
+      }
+
     } else if (args[0] == ".secrets.txt") {
       ret = "🥚";
+
     } else if (args[0] == "about") {
       ret = "IMPLEMENTATION IN PROGRESS";
     }
 
-    res.innerText = ret;
+    res.innerHTML = ret;
   } else {
     res.innerText = `Usage: ${docs.open.usage}`;
   }
@@ -214,7 +222,7 @@ function handleAbout(res) {
   const teach = document.createElement("p");
   teach.classList.add("limWidth");
   const img = document.createElement("img");
-  
+
   // set img content
   img.src = "neem.png";
   img.alt = "Neem in front of plants";
@@ -253,33 +261,44 @@ function handleAbout(res) {
   // show contact
   res.innerHTML += "<br><p class='green'>LINKS:</p>"
   handleContact([], res);
-  
+
   res.innerHTML += "<br>";
   // res.innerHTML += "To learn more, type 'open about'";
 }
 
 // COMMAND: echo
 function handleEcho(args, res) {
-  const escWriteOp = escapeHTML(">");
   const escAppOp = escapeHTML(">>");
 
-  if (args.length >= 1 && (args[0] == escWriteOp || args[0] == escAppOp)) {
+  if (args.length >= 1 && args[0] == escAppOp) {
     res.innerText = `Usage: ${docs.echo.usage}. Type 'help echo' for more information.`;
-  } else if (args.length >= 3 &&
-    (args.includes(escWriteOp) || args.includes(escAppOp)) &&
-    (args[0] != escWriteOp || args[0] != escAppOp)) {
+  } else if (args.length >= 3 && args.includes(escAppOp) && args[0] != escAppOp) {
 
     // parse content, operator, and filename
-    const filename = unEscapeHTML(args[args.length - 1]);
+    const filename = args[args.length - 1];
     const op = args[args.length - 2];
-    const content = unEscapeHTML(args.slice(0, args.length - 2).join(" "));
+    const content = args.slice(0, args.length - 2).join(" ").trim();
 
-    // check action
-    let action = "append";
-    if (op == escWriteOp) {action = "write";}
-    
-    // placeholder filename
-    res.innerText = `Failed to ${action} '${content}' to ${filename}. IMPLEMENTATION IN PROGRESS.`
+    if (!content) {
+      res.innerText = "No content provided.";
+      return
+    }
+
+    if (filename != "notes.txt") {
+      res.innerText = `echo: Permission Denied - Cannot edit or create ${filename} as guest user.`;
+      return
+    }
+
+    // add content to db
+    let message = {};
+    message.content = content;
+    message.createdAt = new Date().toISOString();
+    push(notesDB, message)
+      .then(res.innerHTML = `Added <span class="green">'${content}'</span> to <span class="yellow">${filename}</span>!`)
+      .catch((e) => {
+        res.innerHTML = `Failed to append '${content}' to ${filename}. Error: ${e}.`;
+      })
+
   } else {
     // html already being escaped when processing request
     res.innerHTML = args.join(" ");
@@ -294,13 +313,13 @@ function handleEcho(args, res) {
  * @param {Array<string>} args 
  * @param {HTMLParagraphElement} response 
  */
-export function handleInput(command, args, response) {
+export async function handleInput(command, args, response) {
 
   // if command doesn't take arguments show noArgs message if args provided
   const noArgsCmds = ['banner', 'about', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi', 'howdy'];
   if (noArgsCmds.includes(command) && args.length > 0) {
     response.innerText = `${command}: command does not support arguments`;
-    return;
+    return response;
   }
 
   switch (command) {
@@ -316,7 +335,7 @@ export function handleInput(command, args, response) {
       handleLs(args, response);
       break;
     case 'open':
-      handleOpen(args, response);
+      await handleOpen(args, response);
       break;
     case 'banner':
       displayBanner(response);
@@ -334,7 +353,7 @@ export function handleInput(command, args, response) {
       handleContact(args, response);
       break;
     case 'repo':
-      handleRepo(response);
+      await handleRepo(response);
       break;
     case 'history':
       handleHistory(response);
@@ -349,4 +368,5 @@ export function handleInput(command, args, response) {
       handleDefault(command, response);
       break;
   }
+  return response;
 }

@@ -1,4 +1,5 @@
-import { terminal, dir, processCommand } from './index.js'
+import { terminal, dir, processCommand, notesDB } from './index.js'
+import { onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 /**
  * get json data for all commands
@@ -61,9 +62,9 @@ export function displayPrompt() {
   // create input and process command
   const input = document.createElement("input");
   input.setAttribute("spellcheck", "false");
-  input.addEventListener("keypress", (e) => {
+  input.addEventListener("keypress", async (e) => {
     if (e.key === "Enter") {
-      processCommand(escapeHTML(input.value));
+      await processCommand(escapeHTML(input.value));
     }
   })
 
@@ -119,4 +120,57 @@ function getPromptElements() {
   directory.innerHTML = ":" + dir + " $&nbsp;";
 
   return [domain, user, directory];
+}
+
+export function formatDate(isoString) {
+  // Create a Date object from the ISO string
+  const date = new Date(isoString);
+
+  // Define the months in uppercase
+  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+  // Get the components of the date
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Format the hours and minutes with leading zeros if needed
+  const formattedHours = hours < 10 ? `0${hours}` : hours; // Ensure two-digit hours
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes; // Ensure two-digit minutes
+
+  // Determine AM or PM
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  // Construct the final formatted string
+  return `${month} ${day}, ${year} - ${formattedHours}:${formattedMinutes}${ampm}`;
+}
+
+// Function to fetch notes and return them as a Promise
+export function fetchNotes() {
+  return new Promise((resolve, reject) => {
+    let notes = [];
+
+    onValue(notesDB, (snapshot) => {
+      notes = [];
+
+      // Add some default notes
+      notes.push("hello world!");
+      notes.push("computer bugs started with actual bugs");
+      notes.push("have you tried 'ls -a' yet?");
+      notes.push("leave a note with 'echo [content] >> notes.txt'");
+
+      // Loop through the Firebase snapshot and add the notes
+      Object.entries(snapshot.val()).forEach(([key, value]) => {
+        notes.push(`${formatDate(value.createdAt)}: ${value.content}`);
+      });
+
+      // Resolve the Promise with the notes array
+      resolve(notes);
+    }, (error) => {
+      // Handle any errors (if needed)
+      reject(error);
+    });
+  });
 }

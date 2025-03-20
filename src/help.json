@@ -33,8 +33,7 @@
     "echo": {
         "base": "Write a string to stdout or to a file.",
         "options": {
-            ">> [filename]": "Append content to file.",
-            "> [filename]": "Write content to new file."
+            ">> [filename]": "Append content to file."
         },
         "usage": "echo [content] [options]"
     },

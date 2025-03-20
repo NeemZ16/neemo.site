@@ -1,11 +1,22 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 import { replacePrompt, displayPrompt, displayHistory, unEscapeHTML } from './utils.js';
 import { displayBanner, handleInput } from './handlers.js';
+
+// intialize firebase
+const dbConfig = {
+  databaseURL: "https://neemo-site-default-rtdb.firebaseio.com/"
+};
+const app = initializeApp(dbConfig);
+const db = getDatabase(app);
+export const notesDB = ref(db, "notes");
+export const blogDB = ref(db, "blogs");
 
 export const terminal = document.getElementById("terminal");
 export let dir = "~";
 let onHistoryIdx;
 
-export function processCommand(cmd) {
+export async function processCommand(cmd) {
   if (!cmd) {
     return;
   }
@@ -21,14 +32,16 @@ export function processCommand(cmd) {
   const splitCmd = cmd.split(' ');
   const command = splitCmd[0].toLowerCase();
   const args = splitCmd.splice(1);
-  handleInput(command, args, response);
+  const givenResponse = await handleInput(command, args, response);
 
   // append input and response as a kv pair to local storage
   let history = localStorage.getItem('history');
   history = history ? JSON.parse(history) : [];
 
   // create command/response object
-  const histItem = { "command": cmd, "response": response.innerHTML };
+  // const histItem = { "command": cmd, "response": response.innerHTML };
+  const histItem = { "command": cmd, "response": givenResponse.innerHTML };
+
 
   // add item to history and set history
   history.push(histItem);
@@ -80,12 +93,6 @@ function runOnLoad() {
 
   displayPrompt();
 }
-
-// click anywhere on terminal to focus input
-// terminal.addEventListener("click", () => {
-//   const input = document.querySelector("input");
-//   input.focus();
-// })
 
 // up/down to cycle through history
 window.addEventListener("keydown", (e) => {
