@@ -1,4 +1,4 @@
-# Personal Site - WORK IN PROGRESS
+# Personal Site
 
 made with html, css, javascript and computer magic :)
 
