@@ -245,7 +245,7 @@ function handleAbout(res) {
 
   // set teach content
   teach.innerHTML += "<br>I also deeply enjoy helping people learn things! I've helped students design, build, and test everything from mini wind turbines to their own social media sites. "
-  teach.innerHTML += "I have worked as a <span class='yellow'>Student Leader</span> for the First Year Engineering Seminar sequence: <a href='https://engineering.buffalo.edu/home/academics/undergrad/first-year-experience/eas-classes.html' target='_blank' class='green'>EAS 199/202</a>,"
+  teach.innerHTML += "I have worked as a <span class='yellow'>Student Leader</span> for the First Year Engineering Seminar sequence (<a href='https://engineering.buffalo.edu/home/academics/undergrad/first-year-experience/eas-classes.html' target='_blank' class='green'>EAS 199/202</a>),"
   teach.innerHTML += " a <span class='yellow'>Tutor</span> at UB's <a href='https://www.buffalo.edu/studentsuccess/tutoring.html' target='_blank' class='green'>Tutoring and Academic Support Services</a>,";
   teach.innerHTML += " as well as an <span class='yellow'>Undergraduate TA</span> for <a href='https://webdev.cse.buffalo.edu/cse370/courseweb/' target='_blank' class='green'>CSE 370</a>: Human Computer Interaction.";
   res.appendChild(teach);
