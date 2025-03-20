@@ -1,4 +1,4 @@
-import { fetchHelpContent } from "./utils.js";
+import { fetchHelpContent, escapeHTML } from "./utils.js";
 
 const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
@@ -34,7 +34,7 @@ function handleHelp(args, res) {
     res.innerText = `Usage: ${docs.help.usage}`;
 
   } else if (args.length === 1) {
-    // unsupported cmd
+    // unsupported cmd arg
     const helpCmd = args[0];
     if (!(helpCmd in docs)) {
       res.innerText = `${helpCmd}: command not recognized. ${helpTextContent}`;
@@ -153,7 +153,7 @@ function handleContact(args, res) {
     res.appendChild(linkedin);
     res.appendChild(email);
     res.appendChild(github);
-  
+
   } else if (args.length === 1 && args[0] === "-m") {
     res.innerText = "Please provide a message after '-m'."
   } else if (args[0] === "-m") {
@@ -165,7 +165,7 @@ function handleContact(args, res) {
 
 // COMMAND: ls
 function handleLs(args, res) {
-  let ret = "blog.html\tnotes.md";
+  let ret = "blog.html\tnotes.txt";
   if (args.length > 1) {
     ret = `Usage: ${docs.ls.usage}`;
   } else if (args.length === 1 && args[0] == "-a") {
@@ -182,11 +182,54 @@ function handleLs(args, res) {
 // COMMAND: open
 function handleOpen(args, res) {
   if (args.length === 0) {
-    res.innerText = "Please choose which file you want to open. Type 'ls' to see available files."
+    res.innerText = "Please choose which file you want to open. Type 'ls' to see available files.";
   } else if (args.length === 1) {
-    res.innerText = "IMPLEMENTATION IN PROGRESS"
+    // TODO: complete implementation
+    let ret = "open: Requested file not found. Type 'ls' to see available files.";
+
+    if (args[0] == "blog.html") {
+      ret = "No blog entries yet!";
+    } else if (args[0] == "notes.txt") {
+      ret = "No notes yet!";
+    } else if (args[0] == ".secrets.txt") {
+      ret = "🥚";
+    }
+
+    res.innerText = ret;
   } else {
-    res.innerText = `Usage: ${docs.open.usage}`
+    res.innerText = `Usage: ${docs.open.usage}`;
+  }
+}
+
+// COMMAND: about
+function handleAbout(res) {
+  res.innerText = "IMPLEMENTATION IN PROGRESS";
+}
+
+// COMMAND: echo
+function handleEcho(args, res) {
+  const escWriteOp = escapeHTML(">");
+  const escAppOp = escapeHTML(">>");
+
+  if (args.length >= 1 && (args[0] == escWriteOp || args[0] == escAppOp)) {
+    res.innerText = `Usage: ${docs.echo.usage}. Type 'help echo' for more information.`;
+  } else if (args.length >= 2 &&
+    (args.includes(escWriteOp) || args.includes(escAppOp)) &&
+    (args[0] != escWriteOp || args[0] != esescAppOp)) {
+
+    // parse content, operator, and filename
+    const filename = args[args.length - 1];
+    const op = args[args.length - 2];
+    const content = args.slice(0, args.length - 2).join(" ");
+
+    // check filename
+    let action = "append";
+    if (op == escWriteOp) {action = "write";}
+    
+    res.innerText = `Failed to ${action} '${content}' to ${filename}. IMPLEMENTATION IN PROGRESS.`
+  } else {
+    // html already being escaped when processing request
+    res.innerHTML = args.join(" ");
   }
 }
 
@@ -201,7 +244,7 @@ function handleOpen(args, res) {
 export function handleInput(command, args, response) {
 
   // if command doesn't take arguments show noArgs message if args provided
-  const noArgsCmds = ['banner', 'about', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi'];
+  const noArgsCmds = ['banner', 'about', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi', 'howdy'];
   if (noArgsCmds.includes(command) && args.length > 0) {
     response.innerText = `${command}: command does not support arguments`;
     return;
@@ -209,6 +252,7 @@ export function handleInput(command, args, response) {
 
   switch (command) {
     case 'hello':
+    case 'howdy':
     case 'hi':
       response.innerText = 'hi there! type \'help\' to see what you can do :)';
       break;
@@ -224,7 +268,8 @@ export function handleInput(command, args, response) {
     case 'banner':
       displayBanner(response);
       break;
-    case 'whoisneem':
+    case 'about':
+      handleAbout(response);
       break;
     case 'whoami':
       response.innerText = 'guest';
@@ -245,8 +290,7 @@ export function handleInput(command, args, response) {
       handleClear();
       break;
     case 'echo':
-      // HTML already being escaped when process command called
-      response.innerHTML = args.join(" ");
+      handleEcho(args, response);
       break;
     default:
       handleDefault(command, response);
