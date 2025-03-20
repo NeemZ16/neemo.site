@@ -240,7 +240,9 @@ async function handleOpen(args, res) {
       ret = "🥚";
 
     } else if (args[0] == "about") {
-      ret = "IMPLEMENTATION IN PROGRESS";
+      // ret = "IMPLEMENTATION IN PROGRESS";
+      handleAbout(res);
+      return;
     }
 
     res.innerHTML = ret;
@@ -267,7 +269,7 @@ function handleAbout(res) {
   // set bio content
   bio.innerHTML = "Hi! I'm <span class='green'>Neem</span> and I'm a <span class='yellow'>Fullstack Software Engineer</span>. ";
   bio.innerHTML += "I will be graduating from the <span class='green'>University at Buffalo</span> with a BS in <span class='yellow'>Computer Science</span> in <span class='green'>May 2025</span>. ";
-  bio.innerHTML += "I enjoy tinkering with systems to figure out how they work, and I love <span class='yellow'>building</span> things (software, wood, 3D printing, fabric, anything really...)";
+  bio.innerHTML += "I enjoy tinkering with systems to figure out how they work, and I love <span class='yellow'>building things</span> (software, wood, 3D printing, fabric, anything really...)";
   res.appendChild(bio);
 
   // set projects content
