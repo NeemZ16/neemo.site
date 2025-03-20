@@ -1,4 +1,4 @@
-import { fetchHelpContent, escapeHTML } from "./utils.js";
+import { fetchHelpContent, escapeHTML, unEscapeHTML } from "./utils.js";
 
 const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
@@ -203,6 +203,9 @@ function handleOpen(args, res) {
 
 // COMMAND: about
 function handleAbout(res) {
+  const bio = document.createElement("p");
+
+
   res.innerText = "IMPLEMENTATION IN PROGRESS";
 }
 
@@ -213,19 +216,20 @@ function handleEcho(args, res) {
 
   if (args.length >= 1 && (args[0] == escWriteOp || args[0] == escAppOp)) {
     res.innerText = `Usage: ${docs.echo.usage}. Type 'help echo' for more information.`;
-  } else if (args.length >= 2 &&
+  } else if (args.length >= 3 &&
     (args.includes(escWriteOp) || args.includes(escAppOp)) &&
-    (args[0] != escWriteOp || args[0] != esescAppOp)) {
+    (args[0] != escWriteOp || args[0] != escAppOp)) {
 
     // parse content, operator, and filename
-    const filename = args[args.length - 1];
+    const filename = unEscapeHTML(args[args.length - 1]);
     const op = args[args.length - 2];
-    const content = args.slice(0, args.length - 2).join(" ");
+    const content = unEscapeHTML(args.slice(0, args.length - 2).join(" "));
 
     // check filename
     let action = "append";
     if (op == escWriteOp) {action = "write";}
     
+    // placeholder filename
     res.innerText = `Failed to ${action} '${content}' to ${filename}. IMPLEMENTATION IN PROGRESS.`
   } else {
     // html already being escaped when processing request
