@@ -14,16 +14,17 @@
     "contact": {
         "base": "Display contact options and links.",
         "options": {
-            "-m [message content]": "Leave me a message!"
+            "-m [message content]": "Leave me a message!",
+            "[-from [name|email]]": "Optionally say who the message is from."
         },
-        "usage": "contact [-m] [message content]"
+        "usage": "contact [-m [message_content]] [-from [sender_name]]"
     },
     "ls": {
         "base": "List items in current directory.",
         "options": {
             "-a": "List all items, including hidden items, in current directory."
         },
-        "usage": "ls [options]"
+        "usage": "ls [-a]"
     },
     "open": {
         "base": "Open a file.",
@@ -35,7 +36,7 @@
         "options": {
             ">> [filename]": "Append content to file."
         },
-        "usage": "echo [content] [options]"
+        "usage": "echo [content] [>> [filename]]"
     },
     "banner": {
         "base": "Display site banner.",

@@ -1,6 +1,6 @@
-import { fetchHelpContent, escapeHTML, fetchNotes } from "./utils.js";
+import { fetchHelpContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
 import { notesDB } from "./index.js";
-import { push, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const docs = await fetchHelpContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
@@ -124,7 +124,7 @@ function handleHistory(res) {
 }
 
 // COMMAND: contact
-function handleContact(args, res) {
+async function handleContact(args, res) {
   if (args.length === 0) {
     const emailLink = document.createElement("a");
     emailLink.href = "mailto:neemzam2+site@gmail.com?subject=Site%20Message%20-%20";
@@ -160,7 +160,40 @@ function handleContact(args, res) {
   } else if (args.length === 1 && args[0] === "-m") {
     res.innerText = "Please provide a message after '-m'."
   } else if (args[0] === "-m") {
-    res.innerText = "IMPLEMENTATION IN PROGRESS";
+    // parse content and sender
+    let fromIndex = args.length;
+    let sender = "@default_sender";
+
+    if (args.includes("-from") && args.indexOf("-from") === args.length - 1) {
+      // if it is the last element...
+      res.innerText = "Please provide value for '-from' argument";
+      return;
+    } else if (args.includes("-from")) {
+      // else join all the items in arg after that index
+      fromIndex = args.indexOf("-from");
+      sender = args.slice(fromIndex + 1).join(" ").trim();
+    }
+
+    const content = args.slice(1, fromIndex).join(" ").trim()
+    if (!content) {
+      res.innerText = `Please provide message content`;
+      return;
+    } else if (!sender) {
+      res.innerText = `Please provide message sender`;
+      return;
+    }
+
+    try {
+      const response = await sendEmail(content, sender);
+      if (response.status == 200) {
+        res.innerText = "Message sent successfully!";
+      } else {
+        res.innerText = "Unable to send message :(";
+      }
+    } catch (err) {
+      res.innerText = `Failed to send message. Error: ${err}`;
+    }
+
   } else {
     res.innerText = `Usage: ${docs.contact.usage}. Type 'help contact' for more information.`;
   }
@@ -194,12 +227,15 @@ async function handleOpen(args, res) {
       ret = "No blog entries yet!";
 
     } else if (args[0] == "notes.txt") {
-      const notes = await fetchNotes();
-      ret = "NOTES:";
-      for (const note of notes) {
-        ret += `<br>- ${note}`;
+      try {
+        const notes = await fetchNotes();
+        ret = "NOTES:";
+        for (const note of notes) {
+          ret += `<br>- ${note}`;
+        }
+      } catch (err) {
+        ret = `Unable to fetch notes. Error: ${err}`;
       }
-
     } else if (args[0] == ".secrets.txt") {
       ret = "🥚";
 
@@ -350,7 +386,7 @@ export async function handleInput(command, args, response) {
       response.innerText = window.location.hostname;
       break;
     case 'contact':
-      handleContact(args, response);
+      await handleContact(args, response);
       break;
     case 'repo':
       await handleRepo(response);

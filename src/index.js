@@ -12,6 +12,12 @@ const db = getDatabase(app);
 export const notesDB = ref(db, "notes");
 export const blogDB = ref(db, "blogs");
 
+// initialize emailjs
+emailjs.init({
+  publicKey: "ww8sQvOB6jOpK5L_J",
+})
+
+// initialize terminal variables
 export const terminal = document.getElementById("terminal");
 export let dir = "~";
 let onHistoryIdx;
@@ -32,25 +38,31 @@ export async function processCommand(cmd) {
   const splitCmd = cmd.split(' ');
   const command = splitCmd[0].toLowerCase();
   const args = splitCmd.splice(1);
-  const givenResponse = await handleInput(command, args, response);
+  try {
+    const givenResponse = await handleInput(command, args, response);
 
-  // append input and response as a kv pair to local storage
-  let history = localStorage.getItem('history');
-  history = history ? JSON.parse(history) : [];
+    // append input and response as a kv pair to local storage
+    let history = localStorage.getItem('history');
+    history = history ? JSON.parse(history) : [];
 
-  // create command/response object
-  const histItem = { "command": cmd, "response": givenResponse.innerHTML };
+    // create command/response object
+    const histItem = { "command": cmd, "response": givenResponse.innerHTML };
 
-  // add item to history and set history
-  history.push(histItem);
-  localStorage.setItem('history', JSON.stringify(history));
+    // add item to history and set history
+    history.push(histItem);
+    localStorage.setItem('history', JSON.stringify(history));
 
-  // reset global onHistoryIdx
-  onHistoryIdx = history.length;
+    // reset global onHistoryIdx
+    onHistoryIdx = history.length;
 
-  // show response in terminal
-  terminal.appendChild(response);
-  displayPrompt();
+    // show response in terminal
+    terminal.appendChild(response);
+    displayPrompt();
+  } catch (err) {
+    response.textContent = `Something went wrong. Error: ${err}`;
+    terminal.appendChild(response);
+    displayPrompt();
+  }
 }
 
 // define load behaviour in function and call on script load
@@ -96,7 +108,7 @@ function runOnLoad() {
 window.addEventListener("keydown", (e) => {
   const input = document.querySelector("input");
   input.focus();
-  
+
   // do nothing if no history
   let history = localStorage.getItem('history');
   if (!history || e.key !== "ArrowUp" && e.key !== "ArrowDown") {
@@ -111,7 +123,7 @@ window.addEventListener("keydown", (e) => {
       onHistoryIdx--;
     }
     input.value = unEscapeHTML(history[onHistoryIdx].command);
-  
+
   } else if (e.key === "ArrowDown") {
     // cycle down through history
     if (onHistoryIdx < history.length - 1) {

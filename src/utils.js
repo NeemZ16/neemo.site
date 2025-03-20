@@ -176,3 +176,19 @@ export function fetchNotes() {
     });
   });
 }
+
+export async function sendEmail(content, sender) {
+  const templateParams = {
+    name: sender,
+    content: content,
+  }
+  const serviceID = "service_751j1hg";
+  const templateID = "template_j5crotn";
+
+  try {
+    const res = await emailjs.send(serviceID, templateID, templateParams);
+    return res;
+  } catch (err) {
+    return `Failed to send message. Error: ${err}`;
+  }
+}
