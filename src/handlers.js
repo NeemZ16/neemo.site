@@ -229,11 +229,12 @@ function handleAbout(res) {
   skills.innerHTML += "<br>- Languages: JavaScript, TypeScript, Python, Java";
   skills.innerHTML += "<br>- Databases: SQL (MySQL, PostgreSQL), MongoDB";
   skills.innerHTML += "<br>- Frameworks: React, Express, Flask, Django";
+  skills.innerHTML += "<br>- Tools: Git, Figma, Docker";
   res.appendChild(skills);
 
   // set projects content
-  projects.innerHTML = "<br>Here are some <span class='green'>projects</span> I have worked on:";
-  projects.innerHTML += "<br>- <a href='https://devu.app' target='_blank'>DevU</a> - Autograding platform for the CSE department at UB featuring an open API";
+  projects.innerHTML = "<br>Here are some <span class='green'>projects</span> I've worked on:";
+  projects.innerHTML += "<br>- <a href='https://github.com/makeopensource/devU' target='_blank'>DevU</a> - Autograding platform for the CSE department at UB with a focus on extensibility";
   projects.innerHTML += "<br>- <a href='https://unfold.studio' target='blank'>Unfold Studio</a> - Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>";
   projects.innerHTML += "<br>- <a href='https://neemz16.github.io/tuner' target='blank'>Guitar Tuner</a> - Basic tuner for myself to keep track of alternate tunings";
   projects.innerHTML += "<br>- <a href=''>This site :)</a> - Feel free to explore, there are some hidden easter eggs...";
