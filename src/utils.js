@@ -162,9 +162,11 @@ export function fetchNotes() {
       notes.push("leave a note with 'echo [content] >> notes.txt'");
 
       // Loop through the Firebase snapshot and add the notes
-      Object.entries(snapshot.val()).forEach(([key, value]) => {
-        notes.push(`${formatDate(value.createdAt)}: ${value.content}`);
-      });
+      if (snapshot.val()) {
+        Object.entries(snapshot.val()).forEach(([key, value]) => {
+          notes.push(`${formatDate(value.createdAt)}: ${value.content}`);
+        });
+      }
 
       // Resolve the Promise with the notes array
       resolve(notes);
