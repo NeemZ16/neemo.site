@@ -74,7 +74,7 @@ function handleHelp(args, res) {
 
 // COMMAND: repo
 function handleRepo(res) {
-  const URL = 'https://github.com/NeemZ16/neemo-emu';
+  const URL = 'https://github.com/NeemZ16/neemo.site';
   res.innerText = "Opening repository in new tab...";
 
   // open new tab and change text after 0.5s; return AFTER completion
