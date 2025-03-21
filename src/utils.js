@@ -161,7 +161,7 @@ export function fetchNotes() {
       // Loop through the Firebase snapshot and add the notes
       if (snapshot.val()) {
         Object.entries(snapshot.val()).forEach(([key, value]) => {
-          notes.push(`${formatDate(value.createdAt)}: ${value.content}`);
+          notes.push(`${formatDate(value.createdAt)} - ${value.content}`);
         });
       }
 
