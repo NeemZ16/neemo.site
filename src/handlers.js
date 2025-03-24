@@ -1,5 +1,5 @@
-import { fetchHelpContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
-import { notesDB } from "./index.js";
+import { fetchHelpContent, escapeHTML, fetchNotes, sendEmail, openWindow } from "./utils.js";
+import { notesDB, terminal } from "./index.js";
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const docs = await fetchHelpContent();
@@ -225,6 +225,7 @@ async function handleOpen(args, res) {
 
     if (args[0] == "blog.html") {
       ret = "No blog entries yet!";
+      terminal.appendChild(openWindow([], "blog"));
 
     } else if (args[0] == "notes.txt") {
       try {
@@ -242,6 +243,8 @@ async function handleOpen(args, res) {
     } else if (args[0] == "about") {
       // ret = "IMPLEMENTATION IN PROGRESS";
       handleAbout(res);
+      terminal.appendChild(openWindow([res], "about"));
+      // res.innerText = "Opened about!";
       return;
     }
 

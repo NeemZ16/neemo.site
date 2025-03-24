@@ -189,3 +189,37 @@ export async function sendEmail(content, sender) {
     return `Failed to send message. Error: ${err}`;
   }
 }
+
+export function openWindow(content, winId) {
+  const win = document.createElement("div");
+  win.id = winId;
+  win.classList.add("window");
+  
+  const winHeader = document.createElement("div");
+  winHeader.id = winId + "_header";
+  winHeader.classList.add("windowHeader");
+
+  // add button on close remove div with id winId
+  const winClose = document.createElement("button");
+  winClose.textContent = "X";
+  winClose.title = "close";
+  winClose.onclick = closeWindow;
+
+  const winWrapper = document.createElement("div");
+  winWrapper.classList.add("windowContentWrapper");
+  content.forEach(child => {
+    console.log(child);
+    winWrapper.appendChild(child);
+  });
+
+  winHeader.appendChild(winClose);
+  win.appendChild(winHeader);
+  win.appendChild(winWrapper);
+  
+  return win;
+}
+
+function closeWindow(event, winId) {
+  const toRemove = document.getElementById(winId);
+  toRemove.remove();
+}
