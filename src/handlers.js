@@ -134,7 +134,7 @@ async function handleContact(args, res) {
     const githubLink = document.createElement("a");
     githubLink.href = "https://github.com/Neemz16";
     githubLink.target = "_blank";
-    githubLink.textContent = "github.com/Neemz16";
+    githubLink.textContent = "github.com/NeemZ16";
 
     const linkedinLink = document.createElement("a");
     linkedinLink.href = "https://www.linkedin.com/in/neem-zaman";
@@ -278,7 +278,7 @@ function handleAbout(res) {
   projects.innerHTML += "<br>- <a href='https://unfold.studio' target='blank'>Unfold Studio</a> - Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>";
   projects.innerHTML += "<br>- <a href='https://neemz16.github.io/tuner' target='blank'>Guitar Tuner</a> - Basic tuner for myself to keep track of alternate tunings";
   projects.innerHTML += "<br>- <a href=''>This site :)</a> - Feel free to explore, there are some hidden easter eggs...";
-  projects.innerHTML += "<br>- <span class='green'>Ludu</span> - [IN PROGRESS] An online multiplayer version of the popular boardgame!";
+  projects.innerHTML += "<br>- <a href='https://github.com/NeemZ16/ludu' target='blank'>Guitar Tuner</a> - <span class='green'>[IN PROGRESS]</span> An online multiplayer version of the popular boardgame!";
   res.appendChild(projects);
 
   // set skills content
