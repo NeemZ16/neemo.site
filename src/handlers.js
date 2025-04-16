@@ -300,8 +300,50 @@ function handleAbout(args, res) {
     res.innerHTML += "<button onClick=\"simulateCommand('about -projects')\">See Projects</button>";
     res.innerHTML += "<br>"
     res.innerHTML += "<button onClick=\"simulateCommand('about -skills')\">See Skills</button>";
-  } else if (args.length == 1 && (args[0] == "-projects" || args[0] == "-skills")) {
-    res.innerText = "not yet implemented";
+  
+  } else if (args.length == 1) {
+    if (args[0] == "-projects") {
+      const projects = document.createElement("div");
+      projects.innerText = "These are some projects I have worked on:";
+
+      for (const proj of about.projects) {
+        const project = document.createElement("div");
+        const title = document.createElement("p");
+        title.innerHTML = `<a href="${proj.link}" target="_blank">${proj.title}</a>`;
+        const description = document.createElement("p");
+        description.innerHTML = "- <span class=\"green\">Description:</span> " + proj.description;
+        const technologies = document.createElement("p");
+        technologies.innerHTML = "- <span class=\"green\">Technologies:</span> " + proj.technologies;
+        const tags = document.createElement("p");
+        tags.innerHTML = "Tags: ";
+        for (const tag of proj.tags) {
+          tags.innerHTML += `<span class="yellow">#${tag}</span> `
+        }
+        project.appendChild(title);
+        project.appendChild(description);
+        project.appendChild(technologies);
+        project.appendChild(tags);
+        project.innerHTML += "<br>"
+        projects.appendChild(project);
+        projects.classList.add("limWidth");
+      }
+
+      res.appendChild(projects);
+    
+    } else if (args[0] == "-skills") {
+      const skills = document.createElement("div");
+      skills.innerText = "These are some technologies I use day-to-day:";
+      
+      for (const [key, value] of Object.entries(about.skills)) {
+        const category = document.createElement("p");
+        category.innerHTML = `<span class="yellow">${key}:</span> ${value}`;
+        skills.appendChild(category);
+      }
+      res.appendChild(skills);
+    
+    } else {
+      res.innerText = `Usage: ${docs.about.usage}`;
+    }
   } else {
     res.innerText = `Usage: ${docs.about.usage}`;
   }
