@@ -9,7 +9,7 @@
     "about": {
         "base": "About me!",
         "options": {},
-        "usage": "about"
+        "usage": "about [-projects | -skills]"
     },
     "contact": {
         "base": "Display contact options and links.",

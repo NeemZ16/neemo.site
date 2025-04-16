@@ -1,8 +1,9 @@
-import { fetchHelpContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
+import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
 import { notesDB } from "./index.js";
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const docs = await fetchHelpContent();
+const about = await fetchAboutContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
 
 // COMMAND: unrecognized
@@ -134,7 +135,7 @@ async function handleContact(args, res) {
     const githubLink = document.createElement("a");
     githubLink.href = "https://github.com/Neemz16";
     githubLink.target = "_blank";
-    githubLink.textContent = "github.com/Neemz16";
+    githubLink.textContent = "github.com/NeemZ16";
 
     const linkedinLink = document.createElement("a");
     linkedinLink.href = "https://www.linkedin.com/in/neem-zaman";
@@ -252,56 +253,53 @@ async function handleOpen(args, res) {
 }
 
 // COMMAND: about
-function handleAbout(res) {
-  const bio = document.createElement("p");
-  bio.classList.add("limWidth");
-  const projects = document.createElement("p");
-  const skills = document.createElement("p");
-  const teach = document.createElement("p");
-  teach.classList.add("limWidth");
-  const img = document.createElement("img");
+function handleAbout(args, res) {
+  if (args.length == 0) {
+    const bio = document.createElement("div");
+    const img = document.createElement("img");
 
-  // set img content
-  img.src = "neem.png";
-  img.alt = "Neem in front of plants";
-  res.appendChild(img);
+    // set img content
+    img.src = "neem.png";
+    img.alt = "Neem in front of plants";
+    res.appendChild(img);
+    res.innerHTML += "<br>";
 
-  // set bio content
-  bio.innerHTML = "Hi! I'm <span class='green'>Neem</span> and I'm a <span class='yellow'>Fullstack Software Engineer</span>. ";
-  bio.innerHTML += "I will be graduating from the <span class='green'>University at Buffalo</span> with a BS in <span class='yellow'>Computer Science</span> in <span class='green'>May 2025</span>. ";
-  bio.innerHTML += "I enjoy tinkering with systems to figure out how they work, and I love <span class='yellow'>building things</span> (software, wood, 3D printing, fabric, anything really...)";
-  res.appendChild(bio);
+    // set bio
+    const intro = document.createElement("p");
+    intro.classList.add("limWidth");
+    intro.innerHTML = about.bio.intro;
+    bio.appendChild(intro);
+    bio.innerHTML += "<br>";
 
-  // set projects content
-  projects.innerHTML = "<br>Here are some <span class='green'>projects</span> I've worked on:";
-  projects.innerHTML += "<br>- <a href='https://github.com/makeopensource/devU' target='_blank'>DevU</a> - Autograding platform for the CSE department at UB with a focus on extensibility";
-  projects.innerHTML += "<br>- <a href='https://unfold.studio' target='blank'>Unfold Studio</a> - Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>";
-  projects.innerHTML += "<br>- <a href='https://neemz16.github.io/tuner' target='blank'>Guitar Tuner</a> - Basic tuner for myself to keep track of alternate tunings";
-  projects.innerHTML += "<br>- <a href=''>This site :)</a> - Feel free to explore, there are some hidden easter eggs...";
-  projects.innerHTML += "<br>- <span class='green'>Ludu</span> - [IN PROGRESS] An online multiplayer version of the popular boardgame!";
-  res.appendChild(projects);
+    const teach = document.createElement("p");
+    teach.classList.add("limWidth");
+    teach.innerHTML = about.bio.teaching;
+    bio.appendChild(teach);
+    bio.innerHTML += "<br>";
 
-  // set skills content
-  skills.innerHTML = "<br>My go-to <span class='green'>technologies</span>:";
-  skills.innerHTML += "<br>- Languages: JavaScript, TypeScript, Python, Java";
-  skills.innerHTML += "<br>- Databases: SQL (MySQL, PostgreSQL), MongoDB";
-  skills.innerHTML += "<br>- Frameworks: React, Express, Flask, Django";
-  skills.innerHTML += "<br>- Tools: Git, Figma, Docker";
-  res.appendChild(skills);
+    const funFacts = document.createElement("div");
+    funFacts.classList.add("limWidth");
+    about.bio["selected fun facts"].forEach(fact => {
+      const listItem = document.createElement("p");
+      listItem.innerHTML = fact;
+      funFacts.appendChild(listItem);
+    });
+    bio.appendChild(funFacts);
+    bio.innerHTML += "<br>";
 
-  // set teach content
-  teach.innerHTML += "<br>I also deeply enjoy helping people learn things! I've helped students design, build, and test everything from mini wind turbines to their own social media sites. "
-  teach.innerHTML += "I have worked as a <span class='yellow'>Student Leader</span> for the First Year Engineering Seminar sequence (<a href='https://engineering.buffalo.edu/home/academics/undergrad/first-year-experience/eas-classes.html' target='_blank' class='green'>EAS 199/202</a>),"
-  teach.innerHTML += " a <span class='yellow'>Tutor</span> at UB's <a href='https://www.buffalo.edu/studentsuccess/tutoring.html' target='_blank' class='green'>Tutoring and Academic Support Services</a>,";
-  teach.innerHTML += " as well as an <span class='yellow'>Undergraduate TA</span> for <a href='https://webdev.cse.buffalo.edu/cse370/courseweb/' target='_blank' class='green'>CSE 370</a>: Human Computer Interaction.";
-  res.appendChild(teach);
-
-  // show contact
-  res.innerHTML += "<br><p class='green'>LINKS:</p>"
-  handleContact([], res);
-
-  res.innerHTML += "<br>";
-  // res.innerHTML += "To learn more, type 'open about'";
+    // add bio
+    res.appendChild(bio);
+    
+    // show contact
+    res.innerHTML += "<p class='green'>LINKS:</p>"
+    handleContact([], res);
+    res.innerHTML += "<br>";
+    // res.innerHTML += "To learn more, type 'open about'";
+  } else if (args.length == 1 && (args[0] == "-projects" || args[0] == "-skills")) {
+    res.innerText = "not yet implemented";
+  } else {
+    res.innerText = `Usage: ${docs.about.usage}`;
+  }
 }
 
 // COMMAND: echo
@@ -354,7 +352,7 @@ function handleEcho(args, res) {
 export async function handleInput(command, args, response) {
 
   // if command doesn't take arguments show noArgs message if args provided
-  const noArgsCmds = ['banner', 'about', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi', 'howdy'];
+  const noArgsCmds = ['banner', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi', 'howdy'];
   if (noArgsCmds.includes(command) && args.length > 0) {
     response.innerText = `${command}: command does not support arguments`;
     return response;
@@ -379,7 +377,7 @@ export async function handleInput(command, args, response) {
       displayBanner(response);
       break;
     case 'about':
-      handleAbout(response);
+      handleAbout(args, response);
       break;
     case 'whoami':
       response.innerText = 'guest';

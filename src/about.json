@@ -1,0 +1,77 @@
+{
+    "bio": {
+        "intro": "Hi! I'm <span class='green'>Neem</span> and I'm a <span class='yellow'>Fullstack Software Engineer</span>. I will be graduating from the <span class='green'>University at Buffalo</span> with a BS in <span class='yellow'>Computer Science</span> in <span class='green'>May 2025</span>. I enjoy tinkering with systems to figure out how they work, and I love <span class='yellow'>building things</span> (software, wood, 3D printing, fabric, anything really...)",
+        "teaching": "Aside from tech and creative pursuits, I also very much enjoy helping people learn things! I've helped students design, build, and test everything from mini wind turbines to their own social media sites. I have worked as a <span class='yellow'>Student Leader</span> for the First Year Engineering Seminar sequence (<a href='https://engineering.buffalo.edu/home/academics/undergrad/first-year-experience/eas-classes.html' target='_blank' class='green'>EAS 199/202</a>), a <span class='yellow'>Tutor</span> at UB's <a href='https://www.buffalo.edu/studentsuccess/tutoring.html' target='_blank' class='green'>Tutoring and Academic Support Services</a>, as well as an <span class='yellow'>Undergraduate TA</span> for <a href='https://webdev.cse.buffalo.edu/cse370/courseweb/' target='_blank' class='green'>CSE 370</a>: Human Computer Interaction.",
+        "selected fun facts": [
+            "- I think command line stuff is cool (evidently)",
+            "- Big fan of small critters. Millipedes are one of my favorite insects",
+            "- I like playing the guitar! But I don't like using alternate guitar tunings, so I made a thing to help me keep track of them (see projects)",
+            "- I am double jointed! I can bend my index finger all the way back to my wrist :)",
+            "- I think minesweeper is one of the best video games ever made (I don't play many games)"
+        ]
+    },
+    "skills": {
+        "languages": "JavaScript, TypeScript, Python, Java, Go",
+        "frameworks": "React, Express, Django, Flask, Gin",
+        "databases and cloud": "SQL (MySQL, PostgreSQL), MongoDB, Firebase",
+        "developer tools": "Git, GitHub, Docker, Figma"
+    },
+    "projects": [
+        {
+            "title": "DevU",
+            "link": "https://devu.app",
+            "description": "Autograding platform for the CSE department at UB with a focus on extensibility",
+            "technologies": "TypeScript, React, Sass, Express.js, Node.js, PostgreSQL, Figma",
+            "tags": ["Open source"]
+        },
+        {
+            "title": "Unfold Studio",
+            "link": "https://unfoldstudio.net/",
+            "description": "Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>. Primarily worked on improving user experience and design of the app.",
+            "technologies": "Django, JavaScript, jQuery, PostgreSQL",
+            "tags": ["Open source"]
+        },
+        {
+            "title": "Ludu",
+            "link": "https://github.com/NeemZ16/ludu",
+            "description": "My own online adaptation of the popular boardgame, as an exercise in learning Go but also because other versions don't quite preserve the experience of playing the game as well as I would like.",
+            "technologies": "Go, React, Phaser, PostgreSQL, Docker",
+            "tags": ["Personal project", "Game", "In progress"]
+        },
+        {
+            "title": "Tuner",
+            "link": "https://neemz16.github.io/tuner",
+            "description": "A web-based guitar tuner built as an exercise in JavaScript and because I wanted a place to transpose and save alternate guitar tunings.",
+            "technologies": "JavaScript, HTML, CSS",
+            "tags": ["Personal project"]
+        },
+        {
+            "title": "TeamUP",
+            "link": "https://webdev.cse.buffalo.edu/hci/teams/ok",
+            "description": "A gaming-focused social media web app created as a part of <a href='https://webdev.cse.buffalo.edu/cse370/courseweb/' target='_blank' class='green'>CSE 370: Human Computer Interaction</a>.",
+            "technologies": "React, Twitch API, Figma",
+            "tags": ["Academic project", "No longer supported"]
+        },
+        {
+            "title": "DevDash",
+            "link": "https://se-prod.cse.buffalo.edu/CSE442/2024-Fall/cse-442r/marco/frontend/build/#/",
+            "description": "A career development app for the tech industry aimed at college students. Created as the course project for <span class='green'>CSE 442: Software Engineering</span>.",
+            "technologies": "PHP, React, MySQL, Figma",
+            "tags": ["Academic project", "Private link (UB Network Only)"]
+        },
+        {
+            "title": "Capture the Flag",
+            "link": "",
+            "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
+            "technologies": "Flask, React, Phaser (JS game framework), MongoDB, Docker",
+            "tags": ["Academic project", "Game", "In progress"]
+        },
+        {
+            "title": "This site!",
+            "link": "https://neemo.site",
+            "description": "Retro terminal themed personal site. Look around!",
+            "technologies": "JavaScript, Firebase, HTML/CSS",
+            "tags": ["Personal project"]
+        }
+    ]
+}
