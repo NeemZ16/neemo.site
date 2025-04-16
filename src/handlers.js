@@ -1,8 +1,9 @@
-import { fetchHelpContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
+import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
 import { notesDB } from "./index.js";
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const docs = await fetchHelpContent();
+const about = await fetchAboutContent();
 const helpTextContent = "Type 'help' for list of supported commands.";
 
 // COMMAND: unrecognized
