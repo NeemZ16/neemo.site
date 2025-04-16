@@ -75,7 +75,7 @@ input, input:focus-visible {
 }
 
 a {
-  color: rgb(127, 223, 255);
+  color: #7fdfff;
   text-decoration: underline;
 }
 
@@ -85,7 +85,7 @@ img {
 }
 
 .blue {
-  color: rgb(127, 223, 255);
+  color: #7fdfff;
 }
 
 .green {
