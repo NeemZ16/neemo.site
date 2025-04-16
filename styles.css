@@ -122,11 +122,15 @@ img {
 /* media queries */
 @media (max-width: 600px) {
   :root {
-    --font-size: 0.75rem;
+    /* --font-size: 0.75rem; */
     --bg-color: #000;
   }
 
   body {
+    padding: 0px;
+  }
+
+  #terminal {
     padding: 0px;
   }
 
