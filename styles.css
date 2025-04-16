@@ -62,6 +62,7 @@ p, span, input {
 
 .prompt {
   display: flex;
+  min-width: 420px;
 }
 
 input, input:focus-visible {

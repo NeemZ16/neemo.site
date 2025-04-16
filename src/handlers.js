@@ -409,7 +409,7 @@ export async function handleInput(command, args, response) {
     case 'hello':
     case 'howdy':
     case 'hi':
-      response.innerText = "hi there! type <button onClick=\"simulateCommand('help')\">'help'</button> to see what you can do :)";
+      response.innerHTML = "hi there! type <button onClick=\"simulateCommand('help')\">'help'</button> to see what you can do :)";
       break;
     case 'help':
       handleHelp(args, response);
