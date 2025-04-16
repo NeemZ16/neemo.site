@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-import { replacePrompt, displayPrompt, displayHistory, unEscapeHTML } from './utils.js';
+import { replacePrompt, displayPrompt, displayHistory, unEscapeHTML, simulateCommand } from './utils.js';
 import { displayBanner, handleInput } from './handlers.js';
 
 // intialize firebase
@@ -67,6 +67,9 @@ export async function processCommand(cmd) {
 
 // define load behaviour in function and call on script load
 function runOnLoad() {
+  // attach functions to be available globally
+  window.simulateCommand = simulateCommand;
+
   // load history
   let history = localStorage.getItem('history')
   const originalBanner = document.createElement('div');

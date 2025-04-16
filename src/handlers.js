@@ -1,15 +1,15 @@
-import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail, simulateCommand } from "./utils.js";
+import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
 import { notesDB } from "./index.js";
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const docs = await fetchHelpContent();
 const about = await fetchAboutContent();
-const helpTextContent = "Type 'help' for list of supported commands.";
+const helpTextContent = "Type <button onClick=\"simulateCommand('help')\">'help'</button> for list of supported commands.";
 
 // COMMAND: unrecognized
 function handleDefault(cmd, res) {
   // if not allowed show command not recognized
-  res.innerText = `${cmd}: command not recognized. ${helpTextContent}`;
+  res.innerHTML = `${cmd}: command not recognized. ${helpTextContent}`;
 }
 
 // COMMAND: banner
@@ -23,7 +23,7 @@ export function displayBanner(res) {
   `;
 
   const helpText = document.createElement("p");
-  helpText.textContent = helpTextContent;
+  helpText.innerHTML = helpTextContent;
 
   // has to be appended before can insert help text element
   res.appendChild(asciiArt);
@@ -40,7 +40,7 @@ function handleHelp(args, res) {
     // unsupported cmd arg
     const helpCmd = args[0];
     if (!(helpCmd in docs)) {
-      res.innerText = `${helpCmd}: command not recognized. ${helpTextContent}`;
+      res.innerHTML = `${helpCmd}: command not recognized. ${helpTextContent}`;
       return
     }
 
@@ -59,14 +59,14 @@ function handleHelp(args, res) {
     // show usage
     helpText += `\n\nUsage: ${docs[helpCmd].usage}`
 
-    returnHelp.innerText = helpText;
+    returnHelp.innerHTML = helpText;
     res.appendChild(returnHelp);
 
   } else {
     // show help text for all commands
     let helpText = "SUPPORTED COMMANDS:";
     for (const [key, value] of Object.entries(docs)) {
-      helpText += `<p>- <span class="yellow">${key}</span> - ${value.base}</p>`;
+      helpText += `<p>- <button class="yellow" onClick="simulateCommand('${key}')">${key}</button> - ${value.base}</p>`;
     };
     helpText += "<br><p>Type 'help [command]' for more information on a specific command</p>";
     res.innerHTML = helpText;
@@ -196,7 +196,7 @@ async function handleContact(args, res) {
     }
 
   } else {
-    res.innerText = `Usage: ${docs.contact.usage}. Type 'help contact' for more information.`;
+    res.innerHTML = `Usage: ${docs.contact.usage}. Type <button onClick="simulateCommand(help contact)">'help contact'</button> for more information.`;
   }
 }
 
@@ -208,11 +208,11 @@ function handleLs(args, res) {
   } else if (args.length === 1 && args[0] == "-a") {
     ret = ".secrets.txt\t" + ret;
   } else if (args.length === 1) {
-    ret = `Usage: ${docs.ls.usage}. Type 'help ls' for more information.`;
+    ret = `Usage: ${docs.ls.usage}. Type <button onClick="simulateCommand(help ls)">'help ls'</button> for more information.`;
   }
 
   const pre = document.createElement("pre");
-  pre.innerText = ret;
+  pre.innerHTML = ret;
   pre.classList.add("yellow");
   res.appendChild(pre);
 }
@@ -220,9 +220,9 @@ function handleLs(args, res) {
 // COMMAND: open
 async function handleOpen(args, res) {
   if (args.length === 0) {
-    res.innerText = "Please choose which file you want to open. Type 'ls' to see available files.";
+    res.innerHTML = `Usage: ${docs.open.usage}. Type <button onClick=\"simulateCommand('ls')\">'ls'</button> to see available files.`;
   } else if (args.length === 1) {
-    let ret = "open: Requested file not found. Type 'ls' to see available files.";
+    let ret = "open: Requested file not found. Type <button onClick=\"simulateCommand('ls')\">'ls'</button> to see available files.";
 
     if (args[0] == "blog.html") {
       ret = "No blog entries yet!";
@@ -294,22 +294,10 @@ function handleAbout(args, res) {
     res.innerHTML += "<p class='green'>LINKS:</p>"
     handleContact([], res);
     res.innerHTML += "<br>";
-    
-    // show project btn;
-    const seeProj = document.createElement("button");
-    seeProj.textContent = "See Projects";
-    seeProj.addEventListener("click", () => {
-      simulateCommand("about -projects");
-    })
-    res.appendChild(seeProj);
 
-    // show skills btn;
-    const seeSkills = document.createElement("button");
-    seeSkills.textContent = "See Skills";
-    seeSkills.addEventListener("click", () => {
-      simulateCommand("about -skills");
-    })
-    res.appendChild(seeSkills);
+    res.innerHTML += "<button onClick=\"simulateCommand('about -projects')\">See Projects</button>";
+    res.innerHTML += "<br>"
+    res.innerHTML += "<button onClick=\"simulateCommand('about -skills')\">See Skills</button>";
   } else if (args.length == 1 && (args[0] == "-projects" || args[0] == "-skills")) {
     res.innerText = "not yet implemented";
   } else {
@@ -322,7 +310,7 @@ function handleEcho(args, res) {
   const escAppOp = escapeHTML(">>");
 
   if (args.length >= 1 && args[0] == escAppOp) {
-    res.innerText = `Usage: ${docs.echo.usage}. Type 'help echo' for more information.`;
+    res.innerText = `Usage: ${docs.echo.usage}. Type <button onClick="simulateCommand('help echo')">'help echo'</button> for more information.`;
   } else if (args.length >= 3 && args.includes(escAppOp) && args[0] != escAppOp) {
 
     // parse content, operator, and filename
@@ -377,7 +365,7 @@ export async function handleInput(command, args, response) {
     case 'hello':
     case 'howdy':
     case 'hi':
-      response.innerText = 'hi there! type \'help\' to see what you can do :)';
+      response.innerText = "hi there! type <button onClick=\"simulateCommand('help')\">'help'</button> to see what you can do :)";
       break;
     case 'help':
       handleHelp(args, response);
