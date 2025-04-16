@@ -4,12 +4,12 @@ import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-databas
 
 const docs = await fetchHelpContent();
 const about = await fetchAboutContent();
-const helpTextContent = "Type 'help' for list of supported commands.";
+const helpTextContent = "Type <button onClick=\"simulateCommand('help')\">'help'</button> for list of supported commands.";
 
 // COMMAND: unrecognized
 function handleDefault(cmd, res) {
   // if not allowed show command not recognized
-  res.innerText = `${cmd}: command not recognized. ${helpTextContent}`;
+  res.innerHTML = `${cmd}: command not recognized. ${helpTextContent}`;
 }
 
 // COMMAND: banner
@@ -19,11 +19,11 @@ export function displayBanner(res) {
      ____  ___  ___  ____ ___  ____     ____
     / __ \\/ _ \\/ _ \\/ __ \`__ \\/ __ \\   /_  /
    / / / /  __/  __/ / / / / / /_/ /    / /_
-  /_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.0.0
+  /_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.1.0
   `;
 
   const helpText = document.createElement("p");
-  helpText.textContent = helpTextContent;
+  helpText.innerHTML = helpTextContent;
 
   // has to be appended before can insert help text element
   res.appendChild(asciiArt);
@@ -40,7 +40,7 @@ function handleHelp(args, res) {
     // unsupported cmd arg
     const helpCmd = args[0];
     if (!(helpCmd in docs)) {
-      res.innerText = `${helpCmd}: command not recognized. ${helpTextContent}`;
+      res.innerHTML = `${helpCmd}: command not recognized. ${helpTextContent}`;
       return
     }
 
@@ -59,14 +59,14 @@ function handleHelp(args, res) {
     // show usage
     helpText += `\n\nUsage: ${docs[helpCmd].usage}`
 
-    returnHelp.innerText = helpText;
+    returnHelp.innerHTML = helpText;
     res.appendChild(returnHelp);
 
   } else {
     // show help text for all commands
     let helpText = "SUPPORTED COMMANDS:";
     for (const [key, value] of Object.entries(docs)) {
-      helpText += `<p>- <span class="yellow">${key}</span> - ${value.base}</p>`;
+      helpText += `<p>- <button class="yellow" onClick="simulateCommand('${key}')">${key}</button> - ${value.base}</p>`;
     };
     helpText += "<br><p>Type 'help [command]' for more information on a specific command</p>";
     res.innerHTML = helpText;
@@ -196,23 +196,25 @@ async function handleContact(args, res) {
     }
 
   } else {
-    res.innerText = `Usage: ${docs.contact.usage}. Type 'help contact' for more information.`;
+    res.innerHTML = `Usage: ${docs.contact.usage}. Type <button onClick="simulateCommand(help contact)">'help contact'</button> for more information.`;
   }
 }
 
 // COMMAND: ls
 function handleLs(args, res) {
-  let ret = "blog.html\tnotes.txt\tabout";
+  let ret = "<button class='lsItem' onClick=\"simulateCommand('open blog.html')\">blog.html</button>";
+  ret += "\t<button class='lsItem' onClick=\"simulateCommand('open notes.txt')\">notes.txt</button>";
+  ret += "\t<button class='lsItem' onClick=\"simulateCommand('open about')\">about</button>";
   if (args.length > 1) {
     ret = `Usage: ${docs.ls.usage}`;
   } else if (args.length === 1 && args[0] == "-a") {
-    ret = ".secrets.txt\t" + ret;
+    ret = "<button class='lsItem' onClick=\"simulateCommand('open .secrets.txt')\">.secrets.txt</button>\t" + ret;
   } else if (args.length === 1) {
-    ret = `Usage: ${docs.ls.usage}. Type 'help ls' for more information.`;
+    ret = `Usage: ${docs.ls.usage}. Type <button onClick="simulateCommand(help ls)">'help ls'</button> for more information.`;
   }
 
   const pre = document.createElement("pre");
-  pre.innerText = ret;
+  pre.innerHTML = ret;
   pre.classList.add("yellow");
   res.appendChild(pre);
 }
@@ -220,9 +222,9 @@ function handleLs(args, res) {
 // COMMAND: open
 async function handleOpen(args, res) {
   if (args.length === 0) {
-    res.innerText = "Please choose which file you want to open. Type 'ls' to see available files.";
+    res.innerHTML = `Usage: ${docs.open.usage}. Type <button onClick=\"simulateCommand('ls')\">'ls'</button> to see available files.`;
   } else if (args.length === 1) {
-    let ret = "open: Requested file not found. Type 'ls' to see available files.";
+    let ret = "open: Requested file not found. Type <button onClick=\"simulateCommand('ls')\">'ls'</button> to see available files.";
 
     if (args[0] == "blog.html") {
       ret = "No blog entries yet!";
@@ -241,8 +243,7 @@ async function handleOpen(args, res) {
       ret = "🥚";
 
     } else if (args[0] == "about") {
-      // ret = "IMPLEMENTATION IN PROGRESS";
-      handleAbout(res);
+      handleAbout([], res);
       return;
     }
 
@@ -278,6 +279,7 @@ function handleAbout(args, res) {
     bio.innerHTML += "<br>";
 
     const funFacts = document.createElement("div");
+    funFacts.innerHTML += "Here are some <span class='yellow'>fun facts</span> about me:"
     funFacts.classList.add("limWidth");
     about.bio["selected fun facts"].forEach(fact => {
       const listItem = document.createElement("p");
@@ -294,9 +296,54 @@ function handleAbout(args, res) {
     res.innerHTML += "<p class='green'>LINKS:</p>"
     handleContact([], res);
     res.innerHTML += "<br>";
-    // res.innerHTML += "To learn more, type 'open about'";
-  } else if (args.length == 1 && (args[0] == "-projects" || args[0] == "-skills")) {
-    res.innerText = "not yet implemented";
+
+    res.innerHTML += "<button onClick=\"simulateCommand('about -projects')\">See Projects</button>";
+    res.innerHTML += "<br>"
+    res.innerHTML += "<button onClick=\"simulateCommand('about -skills')\">See Skills</button>";
+  
+  } else if (args.length == 1) {
+    if (args[0] == "-projects") {
+      const projects = document.createElement("div");
+      projects.innerText = "These are some projects I have worked on:";
+
+      for (const proj of about.projects) {
+        const project = document.createElement("div");
+        const title = document.createElement("p");
+        title.innerHTML = `<a href="${proj.link}" target="_blank">${proj.title}</a>`;
+        const description = document.createElement("p");
+        description.innerHTML = "- <span class=\"green\">Description:</span> " + proj.description;
+        const technologies = document.createElement("p");
+        technologies.innerHTML = "- <span class=\"green\">Technologies:</span> " + proj.technologies;
+        const tags = document.createElement("p");
+        tags.innerHTML = "Tags: ";
+        for (const tag of proj.tags) {
+          tags.innerHTML += `<span class="yellow">#${tag}</span> `
+        }
+        project.appendChild(title);
+        project.appendChild(description);
+        project.appendChild(technologies);
+        project.appendChild(tags);
+        project.innerHTML += "<br>"
+        projects.appendChild(project);
+        projects.classList.add("limWidth");
+      }
+
+      res.appendChild(projects);
+    
+    } else if (args[0] == "-skills") {
+      const skills = document.createElement("div");
+      skills.innerText = "These are some technologies I use day-to-day:";
+      
+      for (const [key, value] of Object.entries(about.skills)) {
+        const category = document.createElement("p");
+        category.innerHTML = `<span class="yellow">${key}:</span> ${value}`;
+        skills.appendChild(category);
+      }
+      res.appendChild(skills);
+    
+    } else {
+      res.innerText = `Usage: ${docs.about.usage}`;
+    }
   } else {
     res.innerText = `Usage: ${docs.about.usage}`;
   }
@@ -307,7 +354,7 @@ function handleEcho(args, res) {
   const escAppOp = escapeHTML(">>");
 
   if (args.length >= 1 && args[0] == escAppOp) {
-    res.innerText = `Usage: ${docs.echo.usage}. Type 'help echo' for more information.`;
+    res.innerText = `Usage: ${docs.echo.usage}. Type <button onClick="simulateCommand('help echo')">'help echo'</button> for more information.`;
   } else if (args.length >= 3 && args.includes(escAppOp) && args[0] != escAppOp) {
 
     // parse content, operator, and filename
@@ -362,7 +409,7 @@ export async function handleInput(command, args, response) {
     case 'hello':
     case 'howdy':
     case 'hi':
-      response.innerText = 'hi there! type \'help\' to see what you can do :)';
+      response.innerText = "hi there! type <button onClick=\"simulateCommand('help')\">'help'</button> to see what you can do :)";
       break;
     case 'help':
       handleHelp(args, response);

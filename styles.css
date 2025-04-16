@@ -15,6 +15,8 @@
   --bg-color: #1e1e1e;
   --text-color: #00d000;
   --font-size: 1rem;
+  --glow-blue: #7fdfff;
+  --yellow: #e7d56d;
 }
 
 body {
@@ -75,8 +77,20 @@ input, input:focus-visible {
 }
 
 a {
-  color: #7fdfff;
+  color: var(--glow-blue);
   text-decoration: underline;
+}
+
+button {
+  margin-bottom: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  color: var(--glow-blue);
+  font-family: 'mona', 'Courier New', Courier, monospace;
+  text-shadow: var(--text-color) 1px 0 10px;
+  font-size: var(--font-size);
 }
 
 img {
@@ -85,7 +99,7 @@ img {
 }
 
 .blue {
-  color: #7fdfff;
+  color: var(--glow-blue);
 }
 
 .green {
@@ -93,11 +107,16 @@ img {
 }
 
 .yellow {
-  color: #e7d56d;
+  color: var(--yellow);
 }
 
 .limWidth {
   max-width: 75ch;
+}
+
+.lsItem {
+  color: var(--yellow);
+  text-decoration: none;
 }
 
 /* media queries */
