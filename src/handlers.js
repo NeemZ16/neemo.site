@@ -202,11 +202,13 @@ async function handleContact(args, res) {
 
 // COMMAND: ls
 function handleLs(args, res) {
-  let ret = "blog.html\tnotes.txt\tabout";
+  let ret = "<button class='lsItem' onClick=\"simulateCommand('open blog.html')\">blog.html</button>";
+  ret += "\t<button class='lsItem' onClick=\"simulateCommand('open notes.txt')\">notes.txt</button>";
+  ret += "\t<button class='lsItem' onClick=\"simulateCommand('open about')\">about</button>";
   if (args.length > 1) {
     ret = `Usage: ${docs.ls.usage}`;
   } else if (args.length === 1 && args[0] == "-a") {
-    ret = ".secrets.txt\t" + ret;
+    ret = "<button class='lsItem' onClick=\"simulateCommand('open .secrets.txt')\">.secrets.txt</button>\t" + ret;
   } else if (args.length === 1) {
     ret = `Usage: ${docs.ls.usage}. Type <button onClick="simulateCommand(help ls)">'help ls'</button> for more information.`;
   }

@@ -16,6 +16,7 @@
   --text-color: #00d000;
   --font-size: 1rem;
   --glow-blue: #7fdfff;
+  --yellow: #e7d56d;
 }
 
 body {
@@ -106,11 +107,16 @@ img {
 }
 
 .yellow {
-  color: #e7d56d;
+  color: var(--yellow);
 }
 
 .limWidth {
   max-width: 75ch;
+}
+
+.lsItem {
+  color: var(--yellow);
+  text-decoration: none;
 }
 
 /* media queries */
