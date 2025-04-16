@@ -1,4 +1,4 @@
-import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
+import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail, simulateCommand } from "./utils.js";
 import { notesDB } from "./index.js";
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
@@ -241,8 +241,7 @@ async function handleOpen(args, res) {
       ret = "🥚";
 
     } else if (args[0] == "about") {
-      // ret = "IMPLEMENTATION IN PROGRESS";
-      handleAbout(res);
+      handleAbout([], res);
       return;
     }
 
@@ -278,6 +277,7 @@ function handleAbout(args, res) {
     bio.innerHTML += "<br>";
 
     const funFacts = document.createElement("div");
+    funFacts.innerHTML += "Here are some <span class='yellow'>fun facts</span> about me:"
     funFacts.classList.add("limWidth");
     about.bio["selected fun facts"].forEach(fact => {
       const listItem = document.createElement("p");
@@ -294,7 +294,22 @@ function handleAbout(args, res) {
     res.innerHTML += "<p class='green'>LINKS:</p>"
     handleContact([], res);
     res.innerHTML += "<br>";
-    // res.innerHTML += "To learn more, type 'open about'";
+    
+    // show project btn;
+    const seeProj = document.createElement("button");
+    seeProj.textContent = "See Projects";
+    seeProj.addEventListener("click", () => {
+      simulateCommand("about -projects");
+    })
+    res.appendChild(seeProj);
+
+    // show skills btn;
+    const seeSkills = document.createElement("button");
+    seeSkills.textContent = "See Skills";
+    seeSkills.addEventListener("click", () => {
+      simulateCommand("about -skills");
+    })
+    res.appendChild(seeSkills);
   } else if (args.length == 1 && (args[0] == "-projects" || args[0] == "-skills")) {
     res.innerText = "not yet implemented";
   } else {
