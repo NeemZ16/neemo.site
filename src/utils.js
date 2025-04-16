@@ -72,7 +72,7 @@ export function displayPrompt() {
   // create input and process command
   const input = document.createElement("input");
   input.setAttribute("spellcheck", "false");
-  input.addEventListener("keypress", async (e) => {
+  input.addEventListener("keydown", async (e) => {
     if (e.key === "Enter") {
       await processCommand(escapeHTML(input.value));
     }
@@ -133,25 +133,23 @@ function getPromptElements() {
 }
 
 export function formatDate(isoString) {
-  // Create a Date object from the ISO string
   const date = new Date(isoString);
-
-  // Define the months in uppercase
   const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
-  // Get the components of the date
+  // get date components
   const day = date.getDate();
   const month = months[date.getMonth()];
   const year = date.getFullYear();
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
-  // Format the hours and minutes with leading zeros if needed
-  const formattedHours = hours < 10 ? `0${hours}` : hours; // Ensure two-digit hours
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes; // Ensure two-digit minutes
+  // format digits to be 2 digit always
+  const formattedDay = day < 10 ? `0${day}` : day;
+  const formattedHours = hours < 10 ? `0${hours}` : hours;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-  // Construct the final formatted string
-  return `${month} ${day}, ${year} - ${formattedHours}:${formattedMinutes}`;
+  // return final formatted string
+  return `${month} ${formattedDay}, ${year} - ${formattedHours}:${formattedMinutes}`;
 }
 
 // Function to fetch notes and return them as a Promise
@@ -198,4 +196,21 @@ export async function sendEmail(content, sender) {
   } catch (err) {
     return `Failed to send message. Error: ${err}`;
   }
+}
+
+export function simulateCommand(command) {
+  // set input value
+  const input = document.querySelector("input");
+  input.value = command;
+
+  // press enter to execute command
+  const enterDown = new KeyboardEvent("keydown", {
+    key: "Enter",
+    "keyCode": 13,
+    "which": 13,
+    "code": "Enter",
+    bubbles: true
+  });
+
+  input.dispatchEvent(enterDown);
 }
