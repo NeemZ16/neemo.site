@@ -16,10 +16,10 @@ function handleDefault(cmd, res) {
 export function displayBanner(res) {
   const asciiArt = document.createElement("pre");
   asciiArt.innerHTML = `
-     ____  ___  ___  ____ ___  ____     ____
-    / __ \\/ _ \\/ _ \\/ __ \`__ \\/ __ \\   /_  /
-   / / / /  __/  __/ / / / / / /_/ /    / /_
-  /_/ /_/\\___/\\___/_/ /_/ /_/\\____/    /___/  v1.1.0
+     ____  ___  ___  ____ ___     ____
+    / __ \\/ _ \\/ _ \\/ __ \`__ \\   /_  /
+   / / / /  __/  __/ / / / / /    / /_
+  /_/ /_/\\___/\\___/_/ /_/ /_/    /___/  v1.1.0
   `;
 
   const helpText = document.createElement("p");
