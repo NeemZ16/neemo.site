@@ -21,7 +21,7 @@
             "title": "This site!",
             "link": "",
             "description": "Retro terminal themed personal site. Look around! Email me with <span class=\"green\">'contact -m'</span>",
-            "technologies": "JavaScript, HTML/CSS, Firebase",
+            "technologies": "JavaScript, HTML/CSS, Firebase, Vite",
             "tags": ["personal"]
         },
         {
