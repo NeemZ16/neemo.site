@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "cp CNAME dist/",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "deploy-all": "npm run build && npm run predeploy && npm run deploy"
   },
   "keywords": [],
   "author": "",

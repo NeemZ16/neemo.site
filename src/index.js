@@ -110,7 +110,10 @@ function runOnLoad() {
 // up/down to cycle through history
 window.addEventListener("keydown", (e) => {
   const input = document.querySelector("input");
-  input.focus();
+  // conditional for simulated keydown
+  if (input) {
+    input.focus();
+  }
 
   // do nothing if no history
   let history = localStorage.getItem('history');

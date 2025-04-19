@@ -7,7 +7,7 @@ import { onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-data
  */
 export async function fetchHelpContent() {
   try {
-    const response = await fetch('src/help.json');
+    const response = await fetch('/help.json');
     const data = await response.json();
     return data;
   } catch (error) {
@@ -17,7 +17,7 @@ export async function fetchHelpContent() {
 
 export async function fetchAboutContent() {
   try {
-    const response = await fetch('src/about.json');
+    const response = await fetch('/about.json');
     const data = await response.json();
     return data;
   } catch (error) {

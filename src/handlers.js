@@ -2,8 +2,14 @@ import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail 
 import { notesDB } from "./index.js";
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
-const docs = await fetchHelpContent();
-const about = await fetchAboutContent();
+// wrap top level await for build
+let docs, about;
+async function loadContent() {
+  docs = await fetchHelpContent();
+  about = await fetchAboutContent();
+}
+loadContent();
+
 const helpTextContent = "Type <button onClick=\"simulateCommand('help')\">'help'</button> for list of supported commands.";
 
 // COMMAND: unrecognized
