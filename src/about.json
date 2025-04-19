@@ -72,6 +72,13 @@
             "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
             "technologies": "Flask, React, Phaser (JS game framework), MongoDB, Docker",
             "tags": ["academic", "game", "in-progress"]
+        },
+        {
+            "title": "TCP Chat",
+            "link": "https://cse4589.github.io/",
+            "description": "A command-line text chat application, consisting of one chat server and multiple chat clients over TCP connections. Created as an assignment for <a href='https://cse4589.github.io/' target='_blank' class='green'>CSE 489: Modern Networking Concepts</a>",
+            "technologies": "Python",
+            "tags": ["academic", "cli-app", "networking"]
         }
     ]
 }
