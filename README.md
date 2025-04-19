@@ -2,4 +2,5 @@
 
 made with html, css, javascript and computer magic :)
 
-deployed [here!](https://neemo.site)
+built with vite and deployed [here!](https://neemo.site)
+
