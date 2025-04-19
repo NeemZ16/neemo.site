@@ -297,12 +297,12 @@ function handleAbout(args, res) {
     handleContact([], res);
     res.innerHTML += "<br>";
 
-    res.innerHTML += "<button onClick=\"simulateCommand('about -projects')\">See Projects</button>";
+    res.innerHTML += "<button onClick=\"simulateCommand('about -proj')\">See Projects</button>";
     res.innerHTML += "<br>"
     res.innerHTML += "<button onClick=\"simulateCommand('about -skills')\">See Skills</button>";
   
   } else if (args.length == 1) {
-    if (args[0] == "-projects") {
+    if (args[0] == "-proj") {
       const projects = document.createElement("div");
       projects.innerText = "These are some projects I have worked on:";
 
@@ -332,7 +332,7 @@ function handleAbout(args, res) {
     
     } else if (args[0] == "-skills") {
       const skills = document.createElement("div");
-      skills.innerText = "These are some technologies I use day-to-day:";
+      skills.innerHTML = "While I believe in choosing the <span class=\"green\">best tool for the job</span>, these are some <span class=\"green\">I work with often:</span>";
       
       for (const [key, value] of Object.entries(about.skills)) {
         const category = document.createElement("p");

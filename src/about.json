@@ -19,7 +19,7 @@
     "projects": [
         {
             "title": "This site!",
-            "link": "#",
+            "link": "",
             "description": "Retro terminal themed personal site. Look around! Email me with <span class=\"green\">'contact -m'</span>",
             "technologies": "JavaScript, HTML/CSS, Firebase",
             "tags": ["personal"]
@@ -56,14 +56,14 @@
             "title": "TeamUP",
             "link": "https://webdev.cse.buffalo.edu/hci/teams/ok",
             "description": "A gaming-focused social media web app created as a part of <a href='https://webdev.cse.buffalo.edu/cse370/courseweb/' target='_blank' class='green'>CSE 370: Human Computer Interaction</a>. Learned a lot about usability and accessibility on the web.",
-            "technologies": "React, Twitch API, Figma",
+            "technologies": "React, CSS, Twitch API, Figma",
             "tags": ["academic", "no-longer-supported"]
         },
         {
             "title": "DevDash",
             "link": "https://se-prod.cse.buffalo.edu/CSE442/2024-Fall/cse-442r/marco/frontend/build/#/",
             "description": "A career development app for the tech industry aimed at college students. Created as the course project for <span class='green'>CSE 442: Software Engineering</span>.",
-            "technologies": "PHP, React, MySQL, Figma",
+            "technologies": "PHP, React, CSS, MySQL, Figma",
             "tags": ["academic", "private-link_(UB_Network_Only)"]
         },
         {
