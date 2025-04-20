@@ -214,3 +214,11 @@ export function simulateCommand(command) {
 
   input.dispatchEvent(enterDown);
 }
+
+export function executeLanguage(action, curlCommand, ret) {
+  try {
+    ret.innerText = action(curlCommand);
+  } catch (err) {
+    ret.innerHTML = err;
+  }
+}

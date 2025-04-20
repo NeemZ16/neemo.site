@@ -1,4 +1,4 @@
-import { fetchHelpContent, fetchAboutContent, escapeHTML, unEscapeHTML, fetchNotes, sendEmail } from "./utils.js";
+import { fetchHelpContent, fetchAboutContent, escapeHTML, unEscapeHTML, fetchNotes, sendEmail, executeLanguage, simulateCommand } from "./utils.js";
 import { notesDB } from "./index.js";
 import * as curlconverter from 'curlconverter';
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
@@ -298,7 +298,7 @@ function handleAbout(args, res) {
 
     // add bio
     res.appendChild(bio);
-    
+
     // show contact
     res.innerHTML += "<p class='green'>LINKS:</p>"
     handleContact([], res);
@@ -307,7 +307,7 @@ function handleAbout(args, res) {
     res.innerHTML += "<button onClick=\"simulateCommand('about -proj')\">See Projects</button>";
     res.innerHTML += "<br>"
     res.innerHTML += "<button onClick=\"simulateCommand('about -skills')\">See Skills</button>";
-  
+
   } else if (args.length == 1) {
     if (args[0] == "-proj") {
       const projects = document.createElement("div");
@@ -336,18 +336,18 @@ function handleAbout(args, res) {
       }
 
       res.appendChild(projects);
-    
+
     } else if (args[0] == "-skills") {
       const skills = document.createElement("div");
       skills.innerHTML = "While I believe in choosing the <span class=\"green\">best tool for the job</span>, these are some <span class=\"green\">I work with often:</span>";
-      
+
       for (const [key, value] of Object.entries(about.skills)) {
         const category = document.createElement("p");
         category.innerHTML = `<span class="yellow">${key}:</span> ${value}`;
         skills.appendChild(category);
       }
       res.appendChild(skills);
-    
+
     } else {
       res.innerText = `Usage: ${docs.about.usage}`;
     }
@@ -396,22 +396,45 @@ function handleEcho(args, res) {
 }
 
 // COMMAND: curlconvert
-async function handleCurlConvert(args, res) {
-  if (args.length == 0 || args[args.length - 1].toLowerCase() == "--language") {
+function handleCurlConvert(args, res) {
+  if (args.length == 0 || args[args.length - 1].toLowerCase() == "--lang") {
     res.innerHTML = `Usage: ${docs.curlconvert.usage}`;
     return
   }
-  
-  const curlCommand = unEscapeHTML(args.join(" "));
-  const ret = document.createElement("pre");
-  let fetchCmd;
-  try {
-    fetchCmd = curlconverter.toJavaScript(curlCommand);
-    ret.innerText = fetchCmd;
-  } catch (err) {
-    fetchCmd = err
-    ret.innerHTML = fetchCmd;
+
+  // parse language argument
+  let lang = "js";
+  if (args[args.length - 2].toLowerCase() == "--lang") {
+    lang = args[args.length - 1].toLowerCase();
+    args = args.slice(0, args.length - 2);
   }
+
+  const ret = document.createElement("pre");
+  const curlCommand = unEscapeHTML(args.join(" "));
+  switch (lang) {
+    case "php":
+      executeLanguage(curlconverter.toPhp, curlCommand, ret)
+      break;
+    case "python":
+      executeLanguage(curlconverter.toPython, curlCommand, ret)
+      break;
+    case "c":
+      executeLanguage(curlconverter.toC, curlCommand, ret)
+      break;
+    case "java":
+      executeLanguage(curlconverter.toJava, curlCommand, ret)
+      break;
+    case "go":
+      executeLanguage(curlconverter.toGo, curlCommand, ret)
+      break;
+    case "js":
+    case "javascript":
+      executeLanguage(curlconverter.toJavaScript, curlCommand, ret)
+      break;
+    default:
+      ret.innerHTML = `curlconvert: <span class="green">'${lang}'</span> currently not supported. Type <button onClick="simulateCommand('help curlconvert')">'help curlconvert'</button> for more information.`
+  }
+
   res.appendChild(ret);
 }
 

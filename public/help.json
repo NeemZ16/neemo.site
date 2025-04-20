@@ -51,9 +51,9 @@
     "curlconvert": {
         "base": "Transpile curl commands into chosen language. Default JS Fetch.",
         "options": {
-            "--language [language]": "Choose language between PHP, Python, C, and Java"
+            "--lang [language]": "Choose language between PHP, Python, C, Java, and Go"
         },
-        "usage": "curlconvert [curl command] [--language [language]]"
+        "usage": "curlconvert [curl command] [--lang [language]]"
     },
     "clear": {
         "base": "Clear terminal and command history.",
