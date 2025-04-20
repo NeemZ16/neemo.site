@@ -18,5 +18,8 @@ export default defineConfig({
                 dest: ''
             }]
         })
-    ]
+    ],
+    server: {
+        port: 8080
+    }
 })
