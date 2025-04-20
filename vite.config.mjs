@@ -19,6 +19,9 @@ export default defineConfig({
             }]
         })
     ],
+    build: {
+        target: 'esnext', // ensure ESNext target so top-level await works
+    },
     server: {
         port: 8080
     }
