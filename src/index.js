@@ -109,6 +109,13 @@ function runOnLoad() {
 
 // up/down to cycle through history
 window.addEventListener("keydown", (e) => {
+  // allow copy/paste
+  if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'v')) {
+    return;
+  } else if (e.ctrlKey || e.metaKey) {
+    return;
+  }
+
   const input = document.querySelector("input");
   // conditional for simulated keydown
   if (input) {
