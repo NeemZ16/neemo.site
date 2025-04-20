@@ -19,6 +19,7 @@
     "vite": "^6.3.2"
   },
   "dependencies": {
-    "curlconverter": "^4.12.0"
+    "curlconverter": "^4.12.0",
+    "vite-plugin-static-copy": "^2.3.1"
   }
 }

@@ -1,5 +1,6 @@
-import { fetchHelpContent, fetchAboutContent, escapeHTML, fetchNotes, sendEmail } from "./utils.js";
+import { fetchHelpContent, fetchAboutContent, escapeHTML, unEscapeHTML, fetchNotes, sendEmail } from "./utils.js";
 import { notesDB } from "./index.js";
+import * as curlconverter from 'curlconverter';
 import { push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 // wrap top level await for build
@@ -394,6 +395,26 @@ function handleEcho(args, res) {
   }
 }
 
+// COMMAND: curlconvert
+async function handleCurlConvert(args, res) {
+  if (args.length == 0 || args[args.length - 1].toLowerCase() == "--language") {
+    res.innerHTML = `Usage: ${docs.curlconvert.usage}`;
+    return
+  }
+  
+  const curlCommand = unEscapeHTML(args.join(" "));
+  const ret = document.createElement("pre");
+  let fetchCmd;
+  try {
+    fetchCmd = curlconverter.toJavaScript(curlCommand);
+    ret.innerText = fetchCmd;
+  } catch (err) {
+    fetchCmd = err
+    ret.innerHTML = fetchCmd;
+  }
+  res.appendChild(ret);
+}
+
 /**
  * Handles input and calls appropriate handler function. 
  * Sets response innerText.
@@ -452,6 +473,9 @@ export async function handleInput(command, args, response) {
       break;
     case 'echo':
       handleEcho(args, response);
+      break;
+    case 'curlconvert':
+      await handleCurlConvert(args, response);
       break;
     default:
       handleDefault(command, response);
