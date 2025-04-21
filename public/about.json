@@ -5,7 +5,7 @@
         "selected fun facts": [
             "- I think command line stuff is cool (evidently)",
             "- Big fan of small critters. Millipedes are one of my favorite insects",
-            "- I like playing the guitar! But I don't like using alternate guitar tunings, so I made a thing to help me keep track of them (<button onClick=\"simulateCommand('about -projects')\">see projects</button>)",
+            "- I like playing the guitar! But I don't like using alternate guitar tunings, so I made a thing to help me keep track of them (<button onClick=\"simulateCommand('about -proj')\">see projects</button>)",
             "- I am double jointed! I can bend my index finger all the way back to my wrist :)",
             "- I think minesweeper is one of the best video games ever made (I don't play many games)"
         ]
@@ -34,7 +34,7 @@
         {
             "title": "Unfold Studio",
             "link": "https://unfoldstudio.net/",
-            "description": "Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green'>Dr. Chris Proctor</a>. Primarily worked on improving user experience and design of the app.",
+            "description": "Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green' target='_blank'>Dr. Chris Proctor</a>. Primarily worked on improving user experience and design of the app.",
             "technologies": "Django, JavaScript, TailwindCSS, jQuery, PostgreSQL",
             "tags": ["open_source"]
         },
