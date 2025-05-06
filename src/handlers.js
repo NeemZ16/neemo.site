@@ -339,7 +339,7 @@ function handleAbout(args, res) {
 
     } else if (args[0] == "-skills") {
       const skills = document.createElement("div");
-      skills.innerHTML = "While I believe in choosing the <span class=\"green\">best tool for the job</span>, these are some <span class=\"green\">I work with often:</span>";
+      skills.innerHTML = "While I believe in choosing the <span class=\"green\">best tool for the job</span>, these are some <span class=\"green\">I often work with:</span>";
 
       for (const [key, value] of Object.entries(about.skills)) {
         const category = document.createElement("p");
