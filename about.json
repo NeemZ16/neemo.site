@@ -39,6 +39,13 @@
             "tags": ["open_source"]
         },
         {
+            "title": "Capture the Flag",
+            "link": "https://net-err-empty-response.cse312.dev/",
+            "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
+            "technologies": "Flask, Phaser (JS game framework), MongoDB, Docker",
+            "tags": ["academic", "game"]
+        },
+        {
             "title": "Ludu",
             "link": "https://github.com/NeemZ16/ludu",
             "description": "My own online adaptation of the popular boardgame, as an exercise in learning Go but also because other versions don't quite preserve the experience of playing the game as well as I would like.",
@@ -65,13 +72,6 @@
             "description": "A career development app for the tech industry aimed at college students. Created as the course project for <span class='green'>CSE 442: Software Engineering</span>.",
             "technologies": "PHP, React, CSS, MySQL, Figma",
             "tags": ["academic", "private-link_(UB_Network_Only)"]
-        },
-        {
-            "title": "Capture the Flag",
-            "link": "https://github.com/neemZ16/empty-response",
-            "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
-            "technologies": "Flask, React, Phaser (JS game framework), MongoDB, Docker",
-            "tags": ["academic", "game", "in-progress"]
         },
         {
             "title": "TCP Chat",
