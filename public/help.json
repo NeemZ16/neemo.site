@@ -76,7 +76,7 @@
         "usage": "repo"
     },
     "hire": {
-        "base": "Hire me! Let's set up a meeting :)",
+        "base": "Let's set up a meeting! (Use -email to send an email instead)",
         "options": {
             "-email [content] -from [your-email@gmail.com]": "Prefer to email instead? Just provide your message and a return address."
         },

@@ -438,6 +438,16 @@ function handleCurlConvert(args, res) {
   res.appendChild(ret);
 }
 
+function handleHire(args, res) {
+  if (args.length === 0) {
+
+  } else if (args.length === 1 && args[0].toLowerCase() === "-email") {
+
+  } else {
+    res.innerHTML = `Usage: ${docs.hire.usage}`;
+  }
+}
+
 /**
  * Handles input and calls appropriate handler function. 
  * Sets response innerText.
@@ -499,6 +509,9 @@ export async function handleInput(command, args, response) {
       break;
     case 'curlconvert':
       await handleCurlConvert(args, response);
+      break;
+    case 'hire':
+      handleHire(args, response);
       break;
     default:
       handleDefault(command, response);
