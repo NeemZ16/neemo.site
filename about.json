@@ -25,41 +25,6 @@
             "tags": ["personal"]
         },
         {
-            "title": "DevU",
-            "link": "https://devu.app",
-            "description": "Autograding platform for the CSE department at UB with a focus on extensibility",
-            "technologies": "TypeScript, React, Sass, Express.js, Node.js, PostgreSQL, Figma",
-            "tags": ["open_source"]
-        },
-        {
-            "title": "Unfold Studio",
-            "link": "https://unfoldstudio.net/",
-            "description": "Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green' target='_blank'>Dr. Chris Proctor</a>. Primarily worked on improving user experience and design of the app.",
-            "technologies": "Django, JavaScript, TailwindCSS, jQuery, PostgreSQL",
-            "tags": ["open_source"]
-        },
-        {
-            "title": "Capture the Flag",
-            "link": "https://net-err-empty-response.cse312.dev/",
-            "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
-            "technologies": "Flask, Phaser (JS game framework), MongoDB, Docker",
-            "tags": ["academic", "game"]
-        },
-        {
-            "title": "Ludu",
-            "link": "https://github.com/NeemZ16/ludu",
-            "description": "My own online adaptation of the popular boardgame, as an exercise in learning Go but also because other versions don't quite preserve the experience of playing the game as well as I would like.",
-            "technologies": "Go, React, Phaser (JS game framework), PostgreSQL, Docker",
-            "tags": ["personal", "game", "in-progress"]
-        },
-        {
-            "title": "Tuner",
-            "link": "https://neemz16.github.io/tuner",
-            "description": "A web-based guitar tuner built as an exercise in JavaScript and because I wanted a place to transpose and save alternate guitar tunings.",
-            "technologies": "JavaScript, HTML/CSS",
-            "tags": ["personal", "audio-is-hard"]
-        },
-        {
             "title": "TeamUP",
             "link": "https://webdev.cse.buffalo.edu/hci/teams/ok",
             "description": "A gaming-focused social media web app created as a part of <a href='https://webdev.cse.buffalo.edu/cse370/courseweb/' target='_blank' class='green'>CSE 370: Human Computer Interaction</a>. Learned a lot about usability and accessibility on the web.",
@@ -72,6 +37,41 @@
             "description": "A career development app for the tech industry aimed at college students. Created as the course project for <span class='green'>CSE 442: Software Engineering</span>.",
             "technologies": "PHP, React, CSS, MySQL, Figma",
             "tags": ["academic", "private-link_(UB_Network_Only)"]
+        },
+        {
+            "title": "Ludu",
+            "link": "https://github.com/NeemZ16/ludu",
+            "description": "My own online adaptation of the popular boardgame, as an exercise in learning Go but also because other versions don't quite preserve the experience of playing the game as well as I would like.",
+            "technologies": "Go, React, Phaser (JS game framework), PostgreSQL, Docker",
+            "tags": ["personal", "game", "in-progress"]
+        },
+        {
+            "title": "Unfold Studio",
+            "link": "https://unfoldstudio.net/",
+            "description": "Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green' target='_blank'>Dr. Chris Proctor</a>. Primarily worked on improving user experience and design of the app.",
+            "technologies": "Django, JavaScript, TailwindCSS, jQuery, PostgreSQL",
+            "tags": ["open_source"]
+        },
+        {
+            "title": "DevU",
+            "link": "https://devu.app",
+            "description": "Autograding platform for the CSE department at UB with a focus on extensibility",
+            "technologies": "TypeScript, React, Sass, Express.js, Node.js, PostgreSQL, Figma",
+            "tags": ["open_source"]
+        },
+        {
+            "title": "Capture the Flag",
+            "link": "https://net-err-empty-response.cse312.dev/",
+            "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
+            "technologies": "Flask, Phaser (JS game framework), MongoDB, Docker",
+            "tags": ["academic", "game", "MMO"]
+        },
+        {
+            "title": "Tuner",
+            "link": "https://neemz16.github.io/tuner",
+            "description": "A web-based guitar tuner built as an exercise in JavaScript and because I wanted a place to transpose and save alternate guitar tunings.",
+            "technologies": "JavaScript, HTML/CSS",
+            "tags": ["personal", "audio-is-hard"]
         },
         {
             "title": "TCP Chat",
