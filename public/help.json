@@ -74,5 +74,12 @@
         "base": "Open GitHub repository for this site on a new tab.",
         "options": {},
         "usage": "repo"
+    },
+    "hire": {
+        "base": "Hire me! Let's set up a meeting :)",
+        "options": {
+            "-email [content] -from [your-email@gmail.com]": "Prefer to email instead? Just provide your message and a return address."
+        },
+        "usage": "hire [-email [content] -from [your-email@gmail.com]]"
     }
 }
