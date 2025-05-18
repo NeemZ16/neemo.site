@@ -12,12 +12,12 @@
         "usage": "about [-proj | -skills]"
     },
     "contact": {
-        "base": "Display contact options and links.",
+        "base": "Display contact options and links. <button onClick=\"simulateCommand('help contact')\">see more</button>",
         "options": {
-            "-m [message content]": "Leave me a message!",
+            "-m [content]": "Leave me a message!",
             "[-from [name|email]]": "Optionally say who the message is from."
         },
-        "usage": "contact [-m [message_content]] [-from [sender_name]]"
+        "usage": "contact [-m [content]] [-from [name|email]]"
     },
     "ls": {
         "base": "List items in current directory.",
@@ -76,10 +76,8 @@
         "usage": "repo"
     },
     "hire": {
-        "base": "Let's set up a meeting! (Use -email to send an email instead)",
-        "options": {
-            "-email [content] -from [your-email@gmail.com]": "Prefer to email instead? Just provide your message and a return address."
-        },
-        "usage": "hire [-email [content] -from [your-email@gmail.com]]"
+        "base": "<a href=\"\" onclick=\"Calendly.initPopupWidget({url: 'https://calendly.com/neemzam2/30min'});return false;\">Let's set up a meeting!</a>",
+        "options": {},
+        "usage": "hire"
     }
 }

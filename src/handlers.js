@@ -438,14 +438,11 @@ function handleCurlConvert(args, res) {
   res.appendChild(ret);
 }
 
-function handleHire(args, res) {
-  if (args.length === 0) {
-
-  } else if (args.length === 1 && args[0].toLowerCase() === "-email") {
-
-  } else {
-    res.innerHTML = `Usage: ${docs.hire.usage}`;
-  }
+// COMMAND: hire
+function handleHire(res) {
+  // open calendly popup
+  Calendly.initPopupWidget({url: 'https://calendly.com/neemzam2/30min'});
+  res.innerText = "Opening Calendly popup...";
 }
 
 /**
@@ -459,9 +456,9 @@ function handleHire(args, res) {
 export async function handleInput(command, args, response) {
 
   // if command doesn't take arguments show noArgs message if args provided
-  const noArgsCmds = ['banner', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi', 'howdy'];
+  const noArgsCmds = ['banner', 'hostname', 'repo', 'history', 'clear', 'hello', 'hi', 'howdy', 'hire'];
   if (noArgsCmds.includes(command) && args.length > 0) {
-    response.innerText = `${command}: command does not support arguments`;
+    response.innerText = `${command}: command does not support arguments.`;
     return response;
   }
 
@@ -511,7 +508,7 @@ export async function handleInput(command, args, response) {
       await handleCurlConvert(args, response);
       break;
     case 'hire':
-      handleHire(args, response);
+      handleHire(response);
       break;
     default:
       handleDefault(command, response);
