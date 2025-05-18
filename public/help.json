@@ -14,8 +14,8 @@
     "contact": {
         "base": "Display contact options and links. <button onClick=\"simulateCommand('help contact')\">see more</button>",
         "options": {
-            "-m [content]": "Leave me a message!",
-            "[-from [name|email]]": "Optionally say who the message is from."
+            "-m [content]": "Send me an email!",
+            "[-from [name|email]]": "Optionally say who you are/provide a return address."
         },
         "usage": "contact [-m [content]] [-from [name|email]]"
     },
