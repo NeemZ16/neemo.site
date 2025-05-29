@@ -50,21 +50,21 @@
             "link": "https://unfoldstudio.net/",
             "description": "Interactive storytelling platform developed by <a href='https://chrisproctor.net/' class='green' target='_blank'>Dr. Chris Proctor</a>. Primarily worked on improving user experience and design of the app.",
             "technologies": "Django, JavaScript, TailwindCSS, jQuery, PostgreSQL",
-            "tags": ["open_source"]
+            "tags": ["open-source"]
         },
         {
             "title": "DevU",
             "link": "https://devu.app",
             "description": "Autograding platform for the CSE department at UB with a focus on extensibility",
             "technologies": "TypeScript, React, Sass, Express.js, Node.js, PostgreSQL, Figma",
-            "tags": ["open_source"]
+            "tags": ["open-source"]
         },
         {
             "title": "Capture the Flag",
-            "link": "https://net-err-empty-response.cse312.dev/",
-            "description": "A web-based MMO game created for <a href='https://cse312.com' target='_blank' class='green'>CSE 312: Web Applications</a>",
+            "link": "https://capture-the-flag.neemo.site/",
+            "description": "A web-based MMO capture the flag game. Steal enemy flags, protect your own! <a href=\"https://github.com/NeemZ16/capture-the-flag\">See Repo</a>",
             "technologies": "Flask, Phaser (JS game framework), MongoDB, Docker",
-            "tags": ["academic", "game", "MMO"]
+            "tags": ["game", "MMO", "desktop-only"]
         },
         {
             "title": "Tuner",
