@@ -62,7 +62,7 @@
         {
             "title": "Capture the Flag",
             "link": "https://capture-the-flag.neemo.site/",
-            "description": "A web-based MMO capture the flag game. Steal enemy flags, protect your own! <a href=\"https://github.com/NeemZ16/capture-the-flag\">See Repo</a>",
+            "description": "A web-based MMO capture the flag game. Steal enemy flags, protect your own! <a href='https://github.com/NeemZ16/capture-the-flag' target='_blank'>See Repo</a>",
             "technologies": "Flask, Phaser (JS game framework), MongoDB, Docker",
             "tags": ["game", "MMO", "desktop-only"]
         },
